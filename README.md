@@ -25,22 +25,30 @@ make Web Audio graphs:
 - `<AudioNode />` is a wrapper around a Web Audio node
 - ?? `<ParamTimeline />` is like Timeline but 'plays' an `AudioParam` of the (?) parent
 
+### examples
 
 ```jsx
-<Timeline>
+<Timeline type="mono">
   <Play src="hello.wav" />
   <Play src="world.wav" />
 </Timeline>
 ```
+This should just play hello and world consecutively.
+
+```jsx
+<Timeline type="poly">
+  <Play src="hello.wav" />
+  <Play src="world.wav" start="1.5"/>
+</Timeline>
+```
+This should play them concurrently, hello starting after 1.5 seconds.
 
 ```jsx
 <Pipeline input="" output="">
   <Oscillator frequency="440" />
   <BiquadFilter type="highpass" cutoff="2000" />
   <Split>
-    <Pipeline>
-      <Delay delayTime="400" />
-    </Pipeline>
+    <Delay delayTime="400" />
     <Pipeline>
       <Delay delayTime="500" />
       <Gain gain="0.8" />
@@ -48,3 +56,6 @@ make Web Audio graphs:
   </Split>
 </Pipeline>
 ```
+This should create an oscillator, plug it into a filter, split the graph into two branches, apply a delay on one of them, and a sub-pipeline on the other. Both branches should be plugged into the same output of the Split.
+
+Because no output is specified, we just plug the pipeline into `context.destination`.
