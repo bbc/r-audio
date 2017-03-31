@@ -1,0 +1,34 @@
+{
+  "name": "reaudio",
+  "version": "1.0.0",
+  "description": "web audio as a function of state",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakubfiala/reaudio.git"
+  },
+  "keywords": [
+    "web-audio",
+    "react"
+  ],
+  "author": "jakubfiala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jakubfiala/reaudio/issues"
+  },
+  "homepage": "https://github.com/jakubfiala/reaudio#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-env": "^1.3.2",
+    "babel-preset-react": "^6.23.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "webpack": "^2.3.2",
+    "webpack-dev-server": "^2.4.2"
+  }
+}
