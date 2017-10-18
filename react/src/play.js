@@ -1,3 +1,4 @@
+import React from 'react';
 import RAComponent from './base/component';
 
 const createSource = (ctx, attrs) => {
@@ -10,7 +11,16 @@ const createSource = (ctx, attrs) => {
 };
 
 export default class RAPlay extends RAComponent {
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
+    if (!this.context.audio) {
+      console.warn(`looks like you haven't wrapped the following reaudio component in an RAAudioContext.`, this);
+      return;
+    }
+
     fetch(this.props.src)
     .then(res => res.arrayBuffer())
     .then(ab => this.context.audio.decodeAudioData(ab))
@@ -18,5 +28,21 @@ export default class RAPlay extends RAComponent {
       buffer: buf,
       loop: !!this.props.loop
     }).start(0));
+  }
+
+  render() {
+    if (this.context.debug) {
+      return (
+        <li>
+          <strong>Play</strong><br/>
+          <ul>
+            <li>Source: <code>{this.props.src}</code></li>
+            <li>Loop: <code>{this.props.loop.toString()}</code></li>
+          </ul>
+        </li>
+      );
+    }
+
+    return null;
   }
 };
