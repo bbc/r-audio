@@ -32,6 +32,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
+    "babel-core": "^6.26.0",
     "prop-types": "^15.6.0"
   }
 }

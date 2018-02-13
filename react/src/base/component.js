@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class RAComponent extends React.Component {
+export default class RComponent extends React.Component {
   render() { return null; }
 };
 
-RAComponent.contextTypes = {
+RComponent.contextTypes = {
   audio: PropTypes.instanceOf(AudioContext),
+  nodes: PropTypes.instanceOf(Map),
   debug: PropTypes.bool
 };

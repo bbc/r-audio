@@ -1,22 +1,32 @@
 import React from 'react';
-import RAAudioNode from './base/audio-node';
-import RAComponent from './base/component';
+import RAudioNode from './base/audio-node';
+import RComponent from './base/component';
 
-export default class RAPipeline extends RAComponent {
+export default class RPipeline extends RComponent {
+  constructor(props) {
+    super(props);
+  }
+
   connect(toNode) {
     const lastChild = this.props.children[this.props.children.length - 1];
-    if (lastChild instanceof RAAudioNode) lastChild.connect(toNode);
+    if (lastChild instanceof RAudioNode) lastChild.connect(toNode);
   }
 
   render() {
     const children = React.Children
       .toArray(this.props.children)
-      .map((child, i, _children) => {
-        if (i === _children.length - 1) {
-          return React.cloneElement(child, { destination: this.props.destination });
-        }
+      .map(c => ({ component: c,  identifier: Symbol() }))
+      .map((childTuple, i, childrenArray) => {
+        const getDestination = i === childrenArray.length - 1
+          ? () => this.props.destination()
+          : () => this.context.nodes.get(childrenArray[i + 1].identifier);
 
-        return React.cloneElement(child, { destination: _children[i + 1] });
+        const pipelineProps = {
+          destination: getDestination,
+          identifier: childTuple.identifier
+        };
+
+        return React.cloneElement(childTuple.component, pipelineProps);
       });
 
     if (this.context.debug) {
@@ -30,6 +40,6 @@ export default class RAPipeline extends RAComponent {
       )
     }
 
-    return this.props.children;
+    return children;
   }
 }

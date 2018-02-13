@@ -1,5 +1,5 @@
 import React from 'react';
-import RAComponent from './base/component';
+import RComponent from './base/component';
 
 const createSource = (ctx, attrs) => {
   const source = ctx.createBufferSource();
@@ -10,14 +10,14 @@ const createSource = (ctx, attrs) => {
   return source;
 };
 
-export default class RAPlay extends RAComponent {
+export default class RPlay extends RComponent {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
     if (!this.context.audio) {
-      console.warn(`looks like you haven't wrapped the following reaudio component in an RAAudioContext.`, this);
+      console.warn(`looks like you haven't wrapped the following reaudio component in an RAudioContext.`, this);
       return;
     }
 
