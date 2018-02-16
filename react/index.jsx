@@ -23,8 +23,9 @@ const pipeline = (detune, gain, filterFreq, pan) => (
       <ROscillator frequency={220} type="triangle" detune={detune} transitionDuration={.5}/>
       <RGain gain={gain} transitionDuration={1}/>
       <RPipeline>
-        <ROscillator frequency={110} type="sine" detune={0}/>
-        <RStereoPanner pan={pan} />
+        <ROscillator frequency={110} type="sawtooth" detune={0}/>
+        <ROscillator frequency={1} type="sine" detune={0} connectToParam='pan' />
+        <RStereoPanner />
       </RPipeline>
       <RGain gain={.8} transitionDuration={1}/>
       <RBiquadFilter frequency={filterFreq} gain={1.5} Q={10.1} type="lowpass" detune={0} transitionDuration={.8}/>

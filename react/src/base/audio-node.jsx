@@ -42,7 +42,10 @@ export default class RAudioNode extends RComponent {
 
   componentDidMount() {
     if (this.props.destination) {
-      const destination = this.props.destination();
+      const destination = this.props.connectToParam
+        ? this.props.destination()[this.props.connectToParam]
+        : this.props.destination();
+
       this.node.connect(destination);
     }
   }
