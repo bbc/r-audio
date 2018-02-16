@@ -1,5 +1,5 @@
 import React from 'react';
-import RComponent from './base/component';
+import RComponent from './base/component.jsx';
 
 const createSource = (ctx, attrs) => {
   const source = ctx.createBufferSource();

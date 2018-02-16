@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Contains and manages the Web Audio graph.
+ * All immediate children connect directly to its Destination.
+ *
+ * @class      RAudioContext (name)
+ */
 export default class RAudioContext extends React.Component {
   constructor(props) {
     super(props);
-
-    this._nodes = new Map();
+    // repository of all nodes in the graph
+    // keyed by Symbols
+    this.nodes = new Map();
   }
 
   componentWillMount() {
@@ -13,13 +20,24 @@ export default class RAudioContext extends React.Component {
   }
 
   getChildContext() {
-    return { audio: this._context, debug: this.props.debug, nodes: this._nodes };
+    return {
+      audio: this._context,
+      debug: this.props.debug,
+      nodes: this.nodes
+    };
   }
 
   render() {
     const children = React.Children
       .toArray(this.props.children)
-      .map(child => React.cloneElement(child, { destination: () => this._context.destination }));
+      .map(child => {
+        const audioContextProps = {
+          destination: () => this._context.destination,
+          identifier: Symbol()
+        };
+
+        return React.cloneElement(child, audioContextProps);
+      });
 
     if (this.props.debug) {
       return (

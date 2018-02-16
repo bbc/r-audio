@@ -1,5 +1,5 @@
 import React from 'react';
-import RAudioNode from './../base/audio-node';
+import RAudioNode from './../base/audio-node.jsx';
 
 export default class RGain extends RAudioNode {
   constructor(props) {

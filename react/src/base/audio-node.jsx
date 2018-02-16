@@ -1,14 +1,24 @@
-import RComponent from './component';
-
+import RComponent from './component.jsx';
+/**
+ * Any RComponent that corresponds to an AudioNode is a RAudioNode
+ *
+ * @class      RAudioNode (name)
+ */
 export default class RAudioNode extends RComponent {
   constructor(props) {
     super(props);
+    // internal AudioNode instance
     this.node = null;
+    // dictionary of AudioNode parameters (either AudioParams or object properties)
     this.params = {};
   }
 
   componentWillReceiveProps(nextProps) {
     this.updateParams(nextProps);
+  }
+
+  componentWillUnmount() {
+    this.node.disconnect();
   }
 
   updateParams(props) {
@@ -32,7 +42,8 @@ export default class RAudioNode extends RComponent {
 
   componentDidMount() {
     if (this.props.destination) {
-      this.node.connect(this.props.destination());
+      const destination = this.props.destination();
+      this.node.connect(destination);
     }
   }
 }
