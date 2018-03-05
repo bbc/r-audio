@@ -13,10 +13,12 @@ export default class ROscillator extends RAudioNode {
   }
 
   componentWillMount() {
-    if (!this.context.audio) return;
+    super.componentWillMount();
 
-    this.node = this.context.audio.createOscillator();
-    this.context.nodes.set(this.props.identifier, this.node);
+    if (!this.node || !(this.node instanceof OscillatorNode)) {
+      this.node = this.context.audio.createOscillator();
+      this.context.nodes.set(this.props.identifier, this.node);
+    }
 
     this.updateParams = this.updateParams.bind(this);
     this.updateParams(this.props);
@@ -25,22 +27,5 @@ export default class ROscillator extends RAudioNode {
   componentDidMount() {
     super.componentDidMount();
     this.node.start();
-  }
-
-  render() {
-    if (this.context.debug) {
-      return (
-        <li>
-          <strong>Oscillator</strong><br/>
-          <ul>
-            <li>Type: <code>{this.props.type}</code></li>
-            <li>Frequency: <code>{this.props.frequency}</code></li>
-            <li>Detune: <code>{this.props.detune}</code></li>
-          </ul>
-        </li>
-      );
-    }
-
-    return null;
   }
 }

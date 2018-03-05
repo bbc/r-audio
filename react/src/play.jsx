@@ -16,11 +16,6 @@ export default class RPlay extends RComponent {
   }
 
   componentDidMount() {
-    if (!this.context.audio) {
-      console.warn(`looks like you haven't wrapped the following reaudio component in an RAudioContext.`, this);
-      return;
-    }
-
     fetch(this.props.src)
     .then(res => res.arrayBuffer())
     .then(ab => this.context.audio.decodeAudioData(ab))

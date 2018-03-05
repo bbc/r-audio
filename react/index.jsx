@@ -3,11 +3,15 @@ import RAudioContext from './src/audio-context.jsx';
 import React from 'react';
 import { render } from 'react-dom';
 
-import RPipeline from './src/pipeline.jsx';
+import { RPipeline } from './src/graph/pipeline.jsx';
+import RSplit from './src/graph/split.jsx';
+
 import ROscillator from './src/audio-nodes/oscillator.jsx';
 import RGain from './src/audio-nodes/gain.jsx';
 import RBiquadFilter from './src/audio-nodes/biquad-filter.jsx';
 import RStereoPanner from './src/audio-nodes/stereo-panner.jsx';
+
+export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner };
 
 const plays = (
   <RAudioContext debug={true}>
@@ -21,7 +25,22 @@ const pipeline = (detune, gain, filterFreq, pan) => (
     <RPipeline>
       <ROscillator frequency={440} type="triangle" detune={0}/>
       <ROscillator frequency={220} type="triangle" detune={detune} transitionDuration={.5}/>
-      <RGain gain={gain} transitionDuration={1}/>
+      <RGain gain={gain} transitionDuration={1} name='gainToSplit'/>
+      <RSplit>
+        <ROscillator frequency={330} type="triangle" detune={detune + 3} transitionDuration={.5} />
+        <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={0} transitionDuration={.8}/>
+        <RPipeline>
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionDuration={.8}/>
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionDuration={.8}/>
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionDuration={.8}/>
+          <ROscillator frequency={1} type="sine" detune={0} connectToParam='pan' />
+          <RStereoPanner />
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={3} transitionDuration={.8} />
+        </RPipeline>
+        <RPipeline>
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={3} transitionDuration={.8} disconnected />
+        </RPipeline>
+      </RSplit>
       <RPipeline>
         <ROscillator frequency={110} type="sawtooth" detune={0}/>
         <ROscillator frequency={1} type="sine" detune={0} connectToParam='pan' />
@@ -58,7 +77,48 @@ class App extends React.Component {
   }
 }
 
+class MutationExample extends React.Component {
+  constructor() {
+    super();
+    this.nodeCache = [
+      <ROscillator key={1} frequency={440} type="triangle" detune={0} />,
+      <RBiquadFilter key={2} frequency={1000} gain={1} Q={1} type="lowpass" detune={0} transitionDuration={.8} />
+    ];
 
-render(<App/>,
+    this.state = {
+      nodes: this.nodeCache,
+      toggle: true
+    };
+
+    this.change = () => {
+      const changed = this.nodeCache.slice();
+      changed.splice(1, 1, <RGain key={3} gain={.8} transitionDuration={1} />);
+      this.setState({ nodes: changed });
+    }
+  }
+
+  render() {
+    return (
+      <RAudioContext debug={true}>
+        <RPipeline>
+          <button onClick={this.change}>Remove filter</button>
+          { this.state.nodes }
+        </RPipeline>
+      </RAudioContext>
+    )
+  }
+
+  static nodeForType(type, index) {
+    switch(type) {
+      case 'vco':
+        return ;
+      case 'vcf':
+        return
+    }
+  }
+}
+
+
+render(<MutationExample/>,
 document.getElementById('app')
 );

@@ -7,6 +7,10 @@ import PropTypes from 'prop-types';
  * @class      RComponent (name)
  */
 export default class RComponent extends React.Component {
+  componentWillMount() {
+    if (!this.context.audio) throw new ReferenceError('RComponent needs to be a child of a RAudioContext');
+  }
+
   render() { return null; }
 };
 

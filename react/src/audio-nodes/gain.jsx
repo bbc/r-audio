@@ -11,28 +11,16 @@ export default class RGain extends RAudioNode {
   }
 
   componentWillMount() {
-    if (!this.context.audio) return;
+    super.componentWillMount();
+
     const props = this.props;
 
-    this.node = this.context.audio.createGain();
-    this.context.nodes.set(this.props.identifier, this.node);
+    if (!this.node || !(this.node instanceof GainNode)) {
+      this.node = this.context.audio.createGain();
+      this.context.nodes.set(this.props.identifier, this.node);
+    }
 
     this.updateParams = this.updateParams.bind(this);
     this.updateParams(this.props);
-  }
-
-  render() {
-    if (this.context.debug) {
-      return (
-        <li>
-          <strong>Gain</strong><br/>
-          <ul>
-            <li>Gain: <code>{this.props.gain}</code></li>
-          </ul>
-        </li>
-      );
-    }
-
-    return null;
   }
 }
