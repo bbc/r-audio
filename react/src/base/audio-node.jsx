@@ -20,18 +20,21 @@ export default class RAudioNode extends RComponent {
    * Connects the given AudioNode to this RAudioNode's destinations.
    * Abstracts away this operation as it's used in multiple lifecycle stages.
    *
+   * @param      {function} destinationFunction The function that will return the destinations
    * @param      {AudioNode}  webAudioNode  The web audio node
    */
-  connectToDestinations(webAudioNode) {
-    if (this.props.destination && !this.props.disconnected) {
-      let destinations = this.props.destination();
+  connectToDestinations(destinationFunction, webAudioNode) {
+    webAudioNode.disconnect();
 
-      if (!(destinations instanceof Array)) {
-        destinations = [ destinations ];
-      }
+    if (destinationFunction && !this.props.disconnected) {
+      let destinations = destinationFunction();
+
+      if (!(destinations instanceof Array)) destinations = [ destinations ];
 
       destinations.forEach(destination => {
-        webAudioNode.connect(this.props.connectToParam ? destination[this.props.connectToParam] : destination);
+        if (destination) {
+          webAudioNode.connect(this.props.connectToParam ? destination[this.props.connectToParam] : destination);
+        }
       });
     }
   }
@@ -42,6 +45,21 @@ export default class RAudioNode extends RComponent {
 
   componentWillReceiveProps(nextProps) {
     this.updateParams(nextProps);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    // update the node's record in the node registry
+    if (this.props.identifier !== nextProps.identifier) {
+      this.context.nodes.delete(this.props.identifier);
+      this.context.nodes.set(nextProps.identifier, this.node);
+    }
+  }
+
+  // we use DidUpdate to connect to new destinations, because WillUpdate might get called before the new destinations are ready
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.destination !== this.props.destination) {
+      this.connectToDestinations(this.props.destination, this.node);
+    }
   }
 
   componentWillUnmount() {
@@ -56,13 +74,10 @@ export default class RAudioNode extends RComponent {
         if (!parent) return;
 
         try {
-          console.log(parent);
           parent.disconnect(this.node);
         } catch(e) {
           console.warn(e);
         }
-
-        this.connectToDestinations(parent);
       })
     }
   }
@@ -87,7 +102,7 @@ export default class RAudioNode extends RComponent {
   }
 
   componentDidMount() {
-    this.connectToDestinations(this.node);
+    this.connectToDestinations(this.props.destination, this.node);
   }
 
   render() {

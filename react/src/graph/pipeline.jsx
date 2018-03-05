@@ -50,8 +50,10 @@ class RPipeline extends RComponent {
    * @return     {Function}  a function which returns the closest possible destination node
    */
   resolveDestination(currentIndex, childrenArray) {
+    let destinationFunction = null;
+
     if (currentIndex === childrenArray.length - 1) {
-      return () => this.props.destination();
+      destinationFunction = () => this.props.destination();
     } else if (!RPipeline.isConnectableType(childrenArray[currentIndex + 1].component.type)) {
       let childIndex = currentIndex + 1;
 
@@ -60,13 +62,15 @@ class RPipeline extends RComponent {
       }
 
       if (childIndex === currentIndex + 1) {
-        return () => this.props.destination();
+        destinationFunction = () => this.props.destination();
       } else {
-        return () => this.resolvePointer(this.context.nodes.get(childrenArray[childIndex].identifier));
+        destinationFunction = () => this.resolvePointer(this.context.nodes.get(childrenArray[childIndex].identifier));
       }
     } else {
-      return () => this.resolvePointer(this.context.nodes.get(childrenArray[currentIndex + 1].identifier));
+      destinationFunction = () => this.resolvePointer(this.context.nodes.get(childrenArray[currentIndex + 1].identifier));
     }
+
+    return destinationFunction;
   }
 
   resolveParent(currentIndex, childrenArray) {
@@ -103,7 +107,7 @@ class RPipeline extends RComponent {
   render() {
     const children = React.Children
       .toArray(this.props.children)
-      .map(c => ({ component: c,  identifier: Symbol() }))
+      .map(c => ({ component: c,  identifier: Symbol(c.type.name + Date.now()) }))
       .map((childTuple, childIndex, childrenArray) => {
         if (!RComponent.isPrototypeOf(childTuple.component.type)) return childTuple.component;
 

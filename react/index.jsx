@@ -82,7 +82,8 @@ class MutationExample extends React.Component {
     super();
     this.nodeCache = [
       <ROscillator key={1} frequency={440} type="triangle" detune={0} />,
-      <RBiquadFilter key={2} frequency={1000} gain={1} Q={1} type="lowpass" detune={0} transitionDuration={.8} />
+      <RBiquadFilter key={2} frequency={1000} gain={1} Q={1} type="lowpass" detune={0} transitionDuration={.8} />,
+      <RStereoPanner key={4} />
     ];
 
     this.state = {
@@ -92,7 +93,7 @@ class MutationExample extends React.Component {
 
     this.change = () => {
       const changed = this.nodeCache.slice();
-      changed.splice(1, 1, <RGain key={3} gain={.8} transitionDuration={1} />);
+      changed.splice(2, 1, <RGain key={3} gain={.8} transitionDuration={1} />);
       this.setState({ nodes: changed });
     }
   }
@@ -101,7 +102,7 @@ class MutationExample extends React.Component {
     return (
       <RAudioContext debug={true}>
         <RPipeline>
-          <button onClick={this.change}>Remove filter</button>
+          <button onClick={this.change}>Mutate audio graph</button>
           { this.state.nodes }
         </RPipeline>
       </RAudioContext>
