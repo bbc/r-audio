@@ -107,22 +107,36 @@ class RPipeline extends RComponent {
     }
   }
 
+  /**
+   * Returns an Object containing the given Component and its unique identifier
+   *
+   * @param      {Component}  component  The React component
+   * @return     {Object}  the identified child object
+   */
   createIdentifiedChild(component) {
-    const childTuple = {
+    const identifiedChild = {
       component,
       identifier: Symbol(component.type.name + Date.now())
     };
 
     if (!this.foundFirstConnectableType && RPipeline.isConnectableType(component.type)) {
-      childTuple.identifier = this.props.identifier;
+      identifiedChild.identifier = this.props.identifier;
       this.foundFirstConnectableType = true;
     }
 
-    return childTuple;
+    return identifiedChild;
   }
 
-  createGraphReadyChild(childTuple, childIndex, childrenArray) {
-    if (!RComponent.isPrototypeOf(childTuple.component.type)) return childTuple.component;
+  /**
+   * Returns a clone of the child Component with parent, destination and identifier props added to it
+   *
+   * @param      {Object}  identifiedChild  The identified child object
+   * @param      {Number}  childIndex       The child index
+   * @param      {Array}  childrenArray    The children array
+   * @return     {Component}  A clone of the child Component
+   */
+  createEmbeddableChild(identifiedChild, childIndex, childrenArray) {
+    if (!RComponent.isPrototypeOf(identifiedChild.component.type)) return identifiedChild.component;
 
     const getDestination = this.resolveDestination(childIndex, childrenArray);
     const getParent = this.resolveParent(childIndex, childrenArray);
@@ -130,10 +144,10 @@ class RPipeline extends RComponent {
     const pipelineProps = {
       destination: getDestination,
       parent: getParent,
-      identifier: childTuple.identifier
+      identifier: identifiedChild.identifier
     };
 
-    return React.cloneElement(childTuple.component, pipelineProps);
+    return React.cloneElement(identifiedChild.component, pipelineProps);
   }
 
   render() {
@@ -143,7 +157,7 @@ class RPipeline extends RComponent {
       .toArray(this.props.children)
       // double mapping because the second functor needs to peek ahead on the children array
       .map(this.createIdentifiedChild, this)
-      .map(this.createGraphReadyChild, this);
+      .map(this.createEmbeddableChild, this);
 
     if (this.context.debug) {
       return (
