@@ -103,10 +103,11 @@ class MutationExample extends React.Component {
       <RAudioContext debug={true}>
         <RPipeline>
           <button onClick={this.change}>Mutate audio graph</button>
-          { this.state.nodes }
+          <ROscillator key={1} frequency={440} type="triangle" detune={0} />
+          <RGain gain={.5} transitionDuration={1} />
+          <RGain gain={.5} transitionDuration={1} />
           <RPipeline>
-            <RGain gain={.5} transitionDuration={1} />
-            <RGain gain={.5} transitionDuration={1} />
+            { this.state.nodes }
           </RPipeline>
         </RPipeline>
       </RAudioContext>

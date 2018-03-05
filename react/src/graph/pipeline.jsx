@@ -107,24 +107,43 @@ class RPipeline extends RComponent {
     }
   }
 
+  createIdentifiedChild(component) {
+    const childTuple = {
+      component,
+      identifier: Symbol(component.type.name + Date.now())
+    };
+
+    if (!this.foundFirstConnectableType && RPipeline.isConnectableType(component.type)) {
+      childTuple.identifier = this.props.identifier;
+      this.foundFirstConnectableType = true;
+    }
+
+    return childTuple;
+  }
+
+  createGraphReadyChild(childTuple, childIndex, childrenArray) {
+    if (!RComponent.isPrototypeOf(childTuple.component.type)) return childTuple.component;
+
+    const getDestination = this.resolveDestination(childIndex, childrenArray);
+    const getParent = this.resolveParent(childIndex, childrenArray);
+
+    const pipelineProps = {
+      destination: getDestination,
+      parent: getParent,
+      identifier: childTuple.identifier
+    };
+
+    return React.cloneElement(childTuple.component, pipelineProps);
+  }
+
   render() {
+    this.foundFirstConnectableType = false;
+
     const children = React.Children
       .toArray(this.props.children)
-      .map(c => ({ component: c,  identifier: Symbol(c.type.name + Date.now()) }))
-      .map((childTuple, childIndex, childrenArray) => {
-        if (!RComponent.isPrototypeOf(childTuple.component.type)) return childTuple.component;
-
-        const getDestination = this.resolveDestination(childIndex, childrenArray);
-        const getParent = this.resolveParent(childIndex, childrenArray);
-
-        const pipelineProps = {
-          destination: getDestination,
-          parent: getParent,
-          identifier: childIndex === 0 ? this.props.identifier : childTuple.identifier
-        };
-
-        return React.cloneElement(childTuple.component, pipelineProps);
-      });
+      // double mapping because the second functor needs to peek ahead on the children array
+      .map(this.createIdentifiedChild, this)
+      .map(this.createGraphReadyChild, this);
 
     if (this.context.debug) {
       return (
