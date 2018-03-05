@@ -93,7 +93,7 @@ class MutationExample extends React.Component {
 
     this.change = () => {
       const changed = this.nodeCache.slice();
-      changed.splice(2, 1, <RGain key={3} gain={.8} transitionDuration={1} />);
+      changed.splice(1, 1, <RGain key={3} gain={.8} transitionDuration={1} />);
       this.setState({ nodes: changed });
     }
   }
@@ -104,22 +104,17 @@ class MutationExample extends React.Component {
         <RPipeline>
           <button onClick={this.change}>Mutate audio graph</button>
           { this.state.nodes }
+          <RPipeline>
+            <RGain gain={.5} transitionDuration={1} />
+            <RGain gain={.5} transitionDuration={1} />
+          </RPipeline>
         </RPipeline>
       </RAudioContext>
     )
   }
-
-  static nodeForType(type, index) {
-    switch(type) {
-      case 'vco':
-        return ;
-      case 'vcf':
-        return
-    }
-  }
 }
 
 
-render(<MutationExample/>,
+render(<MutationExample />,
 document.getElementById('app')
 );

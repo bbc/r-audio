@@ -34,11 +34,14 @@ class RPipeline extends RComponent {
   resolvePointer(pointer) {
     // we might find that the pointer actually leads us to a list of other pointers (Symbols)
     // this happens, for instance, if the next child is a RSplit
+    let resolved = pointer;
+
     if (pointer instanceof Array) {
-      return pointer.map(identifier => this.context.nodes.get(identifier));
-    } else {
-      return pointer;
+      // it could also happen that the pointer leads to an AudioNode reference (esp. if it's an AudioContextDestination)
+      resolved = pointer.map(identifier => this.context.nodes.get(identifier) || identifier);
     }
+
+    return resolved;
   }
 
   /**
@@ -57,11 +60,11 @@ class RPipeline extends RComponent {
     } else if (!RPipeline.isConnectableType(childrenArray[currentIndex + 1].component.type)) {
       let childIndex = currentIndex + 1;
 
-      while(childrenArray[childIndex++]) {
+      while(childrenArray[++childIndex]) {
         if (RPipeline.isConnectableType(childrenArray[childIndex].component.type)) break;
       }
 
-      if (childIndex === currentIndex + 1) {
+      if (childIndex === currentIndex + 1 || !childrenArray[childIndex]) {
         destinationFunction = () => this.props.destination();
       } else {
         destinationFunction = () => this.resolvePointer(this.context.nodes.get(childrenArray[childIndex].identifier));
@@ -138,7 +141,7 @@ class RPipeline extends RComponent {
   }
 
   static isConnectableType(type) {
-    return connectableTypes.includes(type);
+    return [...connectableTypes, this].includes(type);
   }
 }
 
