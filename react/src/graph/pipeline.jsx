@@ -9,6 +9,7 @@ const connectableTypes = [
   AudioNodes.RGain,
   AudioNodes.RBiquadFilter,
   AudioNodes.RStereoPanner,
+  AudioNodes.RDelay,
   RSplit
 ];
 

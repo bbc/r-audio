@@ -10,6 +10,7 @@ import ROscillator from './src/audio-nodes/oscillator.jsx';
 import RGain from './src/audio-nodes/gain.jsx';
 import RBiquadFilter from './src/audio-nodes/biquad-filter.jsx';
 import RStereoPanner from './src/audio-nodes/stereo-panner.jsx';
+import RDelay from './src/audio-nodes/delay.jsx';
 
 export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner };
 
@@ -104,10 +105,12 @@ class MutationExample extends React.Component {
         <RPipeline>
           <button onClick={this.change}>Mutate audio graph</button>
           <ROscillator key={1} frequency={440} type="triangle" detune={0} />
-          <RGain gain={.5} transitionDuration={1} />
-          <RGain gain={.5} transitionDuration={1} />
-          <RPipeline>
+          <RSplit>
             { this.state.nodes }
+          </RSplit>
+          <RPipeline>
+            <RGain gain={.5} transitionDuration={1} />
+            <RGain gain={.5} transitionDuration={1} />
           </RPipeline>
         </RPipeline>
       </RAudioContext>
@@ -115,7 +118,32 @@ class MutationExample extends React.Component {
   }
 }
 
+const delays = (
+  <RAudioContext debug={true}>
+    <RPipeline>
+      <ROscillator frequency={220} type="triangle" detune={0} />
+      <ROscillator frequency={1} type="square" detune={0} connectToParam="gain" />
+      <RGain gain={1} />
+      <RSplit>
+        <RGain gain={.5} />
+        <RPipeline>
+          <RDelay delayTime={.1} />
+          <RGain gain={.5} />
+        </RPipeline>
+        <RPipeline>
+          <RDelay delayTime={.2} />
+          <RGain gain={.4} />
+        </RPipeline>
+        <RPipeline>
+          <RDelay delayTime={.3} />
+          <RGain gain={.3} />
+        </RPipeline>
+      </RSplit>
+    </RPipeline>
+  </RAudioContext>
+)
 
-render(<MutationExample />,
+
+render(delays,
 document.getElementById('app')
 );
