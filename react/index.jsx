@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 
 import { RPipeline } from './src/graph/pipeline.jsx';
 import RSplit from './src/graph/split.jsx';
+import RCycle from './src/graph/cycle.jsx';
 
 import ROscillator from './src/audio-nodes/oscillator.jsx';
 import RGain from './src/audio-nodes/gain.jsx';
@@ -126,18 +127,18 @@ const delays = (
       <RGain gain={1} />
       <RSplit>
         <RGain gain={.5} />
-        <RPipeline>
-          <RDelay delayTime={.1} />
-          <RGain gain={.5} />
-        </RPipeline>
-        <RPipeline>
-          <RDelay delayTime={.2} />
-          <RGain gain={.4} />
-        </RPipeline>
-        <RPipeline>
-          <RDelay delayTime={.3} />
-          <RGain gain={.3} />
-        </RPipeline>
+        <RCycle>
+          <RPipeline>
+            <RDelay delayTime={.1} />
+            <RGain gain={.4} />
+            <RStereoPanner pan={-1}/>
+          </RPipeline>
+          <RPipeline>
+            <RDelay delayTime={.3} />
+            <RGain gain={.4} />
+            <RStereoPanner pan={1}/>
+          </RPipeline>
+        </RCycle>
       </RSplit>
     </RPipeline>
   </RAudioContext>

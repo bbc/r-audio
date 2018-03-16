@@ -4,13 +4,14 @@ import RComponent from './../base/component.jsx';
 
 import * as AudioNodes from './../audio-nodes/index.jsx';
 import RSplit from './split.jsx';
+import RCycle from './cycle.jsx';
 
 const connectableTypes = [
   AudioNodes.RGain,
   AudioNodes.RBiquadFilter,
   AudioNodes.RStereoPanner,
   AudioNodes.RDelay,
-  RSplit
+  RSplit, RCycle
 ];
 
 /**

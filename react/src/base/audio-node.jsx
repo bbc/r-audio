@@ -16,6 +16,20 @@ export default class RAudioNode extends RComponent {
     this.connectToDestinations = this.connectToDestinations.bind(this);
   }
 
+  flattenDestinations(destinations, flattened = []) {
+    for (let element of destinations) {
+      if (Array.isArray(element)) {
+        this.flattenDestinations(element, flattened);
+      } else if (typeof element === 'symbol') {
+        flattened.push(this.context.nodes.get(element));
+      } else {
+        flattened.push(element);
+      }
+    }
+
+    return flattened;
+  }
+
   /**
    * Connects the given AudioNode to this RAudioNode's destinations.
    * Abstracts away this operation as it's used in multiple lifecycle stages.
@@ -31,8 +45,9 @@ export default class RAudioNode extends RComponent {
 
       if (!(destinations instanceof Array)) destinations = [ destinations ];
 
-      destinations.forEach(destination => {
+      this.flattenDestinations(destinations).forEach(destination => {
         if (destination) {
+          console.log(webAudioNode, destination);
           webAudioNode.connect(this.props.connectToParam ? destination[this.props.connectToParam] : destination);
         }
       });
