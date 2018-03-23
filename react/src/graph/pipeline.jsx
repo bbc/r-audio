@@ -11,6 +11,7 @@ const connectableTypes = [
   AudioNodes.RBiquadFilter,
   AudioNodes.RStereoPanner,
   AudioNodes.RDelay,
+  AudioNodes.RConvolver,
   RSplit, RCycle
 ];
 

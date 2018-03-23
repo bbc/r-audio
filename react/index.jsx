@@ -13,6 +13,7 @@ import RBiquadFilter from './src/audio-nodes/biquad-filter.jsx';
 import RStereoPanner from './src/audio-nodes/stereo-panner.jsx';
 import RDelay from './src/audio-nodes/delay.jsx';
 import RBufferSource from './src/audio-nodes/buffer-source.jsx';
+import RConvolver from './src/audio-nodes/convolver.jsx';
 
 export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner };
 
@@ -163,7 +164,8 @@ class BufferSourceExample extends React.Component {
     return (
       <RAudioContext debug={true} onInit={ctx => this.audioContext = ctx}>
         <RPipeline>
-          <RBufferSource buffer={this.state.buffer}/>
+          <RBufferSource buffer={this.state.buffer} />
+          <RConvolver buffer={this.state.buffer} />
           <RGain gain={.5} />
         </RPipeline>
       </RAudioContext>

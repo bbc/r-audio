@@ -17,6 +17,7 @@ export default class RBufferSource extends RAudioNode {
     this.onEnded = this.onEnded.bind(this);
   }
 
+  // we need to make a new AudioBufferSourceNode after playback ends
   onEnded() {
     this.node = null;
     this.componentWillMount();

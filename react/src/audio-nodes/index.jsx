@@ -4,5 +4,6 @@ import RBiquadFilter from './biquad-filter.jsx';
 import RStereoPanner from './stereo-panner.jsx';
 import RDelay from './delay.jsx';
 import RBufferSource from './buffer-source.jsx';
+import RConvolver from './convolver.jsx';
 
-export { ROscillator, RGain, RBiquadFilter, RStereoPanner, RDelay, RBufferSource };
+export { ROscillator, RGain, RBiquadFilter, RStereoPanner, RDelay, RBufferSource, RConvolver };
