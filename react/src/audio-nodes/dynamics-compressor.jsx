@@ -1,0 +1,28 @@
+import React from 'react';
+import RAudioNode from './../base/audio-node.jsx';
+
+export default class RDynamicsCompressor extends RAudioNode {
+  constructor(props) {
+    super(props);
+
+    this.params = {
+      threshold: props.threshold || -24,
+      knee: props.knee || 30,
+      ratio: props.ratio || 12,
+      attack: props.attack || .003,
+      release: props.release || .25
+    };
+  }
+
+  componentWillMount() {
+    super.componentWillMount();
+
+    if (!this.node || !(this.node instanceof DynamicsCompressorNode)) {
+      this.node = this.context.audio.createDynamicsCompressor();
+      this.context.nodes.set(this.props.identifier, this.node);
+    }
+
+    this.updateParams = this.updateParams.bind(this);
+    this.updateParams(this.props);
+  }
+}

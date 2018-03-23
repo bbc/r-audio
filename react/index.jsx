@@ -15,8 +15,9 @@ import RDelay from './src/audio-nodes/delay.jsx';
 import RBufferSource from './src/audio-nodes/buffer-source.jsx';
 import RConvolver from './src/audio-nodes/convolver.jsx';
 import RWaveShaper from './src/audio-nodes/wave-shaper.jsx';
+import RDynamicsCompressor from './src/audio-nodes/dynamics-compressor.jsx';
 
-export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner, RWaveShaper };
+export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner, RWaveShaper, RDynamicsCompressor };
 
 const plays = (
   <RAudioContext debug={true}>
@@ -182,6 +183,7 @@ class BufferSourceExample extends React.Component {
           <RBufferSource buffer={this.state.buffer} />
           <RConvolver buffer={this.state.buffer} />
           <RWaveShaper curve={this.makeDistortionCurve(200)} />
+          <RDynamicsCompressor threshold={-50} knee={40}/>
           <RGain gain={.9} />
         </RPipeline>
       </RAudioContext>

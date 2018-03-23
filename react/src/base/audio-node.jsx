@@ -137,7 +137,7 @@ export default class RAudioNode extends RComponent {
 
                 let param = this.props[p];
 
-                if (!(typeof this.props[p] in ['number', 'string', 'boolean'])) {
+                if (!(['number', 'string', 'boolean'].includes(typeof this.props[p]))) {
                   param = param.constructor.name;
                 }
 
