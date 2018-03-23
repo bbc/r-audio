@@ -12,6 +12,7 @@ const connectableTypes = [
   AudioNodes.RStereoPanner,
   AudioNodes.RDelay,
   AudioNodes.RConvolver,
+  AudioNodes.RWaveShaper,
   RSplit, RCycle
 ];
 

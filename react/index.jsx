@@ -14,8 +14,9 @@ import RStereoPanner from './src/audio-nodes/stereo-panner.jsx';
 import RDelay from './src/audio-nodes/delay.jsx';
 import RBufferSource from './src/audio-nodes/buffer-source.jsx';
 import RConvolver from './src/audio-nodes/convolver.jsx';
+import RWaveShaper from './src/audio-nodes/wave-shaper.jsx';
 
-export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner };
+export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner, RWaveShaper };
 
 const plays = (
   <RAudioContext debug={true}>
@@ -160,13 +161,28 @@ class BufferSourceExample extends React.Component {
     .then(buffer => this.setState({ buffer }));
   }
 
+  makeDistortionCurve(amount) {
+    var k = typeof amount === 'number' ? amount : 50,
+      n_samples = 44100,
+      curve = new Float32Array(n_samples),
+      deg = Math.PI / 180,
+      i = 0,
+      x;
+    for ( ; i < n_samples; ++i ) {
+      x = i * 2 / n_samples - 1;
+      curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+    }
+    return curve;
+  };
+
   render() {
     return (
       <RAudioContext debug={true} onInit={ctx => this.audioContext = ctx}>
         <RPipeline>
           <RBufferSource buffer={this.state.buffer} />
           <RConvolver buffer={this.state.buffer} />
-          <RGain gain={.5} />
+          <RWaveShaper curve={this.makeDistortionCurve(200)} />
+          <RGain gain={.9} />
         </RPipeline>
       </RAudioContext>
     )
