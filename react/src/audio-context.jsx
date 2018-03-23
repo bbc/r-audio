@@ -16,6 +16,8 @@ export default class RAudioContext extends React.Component {
     this.nodes = new Map();
     this._context = new AudioContext();
 
+    if (this.props.onInit) this.props.onInit(this._context);
+
     if (this.props.debug) {
       window.RAudioNodeMap = this.nodes;
     }

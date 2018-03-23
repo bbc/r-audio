@@ -12,6 +12,7 @@ import RGain from './src/audio-nodes/gain.jsx';
 import RBiquadFilter from './src/audio-nodes/biquad-filter.jsx';
 import RStereoPanner from './src/audio-nodes/stereo-panner.jsx';
 import RDelay from './src/audio-nodes/delay.jsx';
+import RBufferSource from './src/audio-nodes/buffer-source.jsx';
 
 export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner };
 
@@ -144,7 +145,33 @@ const delays = (
   </RAudioContext>
 )
 
+class BufferSourceExample extends React.Component {
+  constructor() {
+    super();
 
-render(delays,
+    this.state = { buffer: null };
+  }
+
+  componentDidMount() {
+    fetch('/assets/audio/b.wav')
+    .then(res => res.arrayBuffer())
+    .then(ab => this.audioContext.decodeAudioData(ab))
+    .then(buffer => this.setState({ buffer }));
+  }
+
+  render() {
+    return (
+      <RAudioContext debug={true} onInit={ctx => this.audioContext = ctx}>
+        <RPipeline>
+          <RBufferSource buffer={this.state.buffer}/>
+          <RGain gain={.5} />
+        </RPipeline>
+      </RAudioContext>
+    )
+  }
+}
+
+
+render(<BufferSourceExample />,
 document.getElementById('app')
 );

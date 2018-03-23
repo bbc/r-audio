@@ -47,7 +47,6 @@ export default class RAudioNode extends RComponent {
 
       this.flattenDestinations(destinations).forEach(destination => {
         if (destination) {
-          console.log(webAudioNode, destination);
           webAudioNode.connect(this.props.connectToParam ? destination[this.props.connectToParam] : destination);
         }
       });
@@ -136,7 +135,13 @@ export default class RAudioNode extends RComponent {
               Object.keys(this.params).map((p, pi) => {
                 if (!this.props[p] && this.props[p] !== 0) return null;
 
-                return <li key={pi}>{p}: <code>{this.props[p]}</code></li>;
+                let param = this.props[p];
+
+                if (!(typeof this.props[p] in ['number', 'string', 'boolean'])) {
+                  param = param.toString();
+                }
+
+                return <li key={pi}>{p}: <code>{param}</code></li>;
               })
             }
           </ul>
