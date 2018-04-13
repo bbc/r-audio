@@ -36,7 +36,7 @@ export default class RSplit extends RComponent {
       .map((childTuple, childIndex, childrenArray) => {
         const type = childTuple.component.type;
         if (
-          RComponent.isPrototypeOf(childTuple.component.type) &&
+          RComponent.isPrototypeOf(type) &&
           (RPipeline.isConnectableType(type))) {
           this.inputs.push(childTuple.identifier);
         }

@@ -13,13 +13,13 @@ export default class RAudioNode extends RComponent {
     this.node = null;
     // dictionary of AudioNode parameters (either AudioParams or object properties)
     this.params = {};
-    this.connectToDestinations = this.connectToDestinations.bind(this);
+    this.connectToAllDestinations = this.connectToAllDestinations.bind(this);
   }
 
-  flattenDestinations(destinations, flattened = []) {
+  flattenPointers(destinations, flattened = []) {
     for (let element of destinations) {
       if (Array.isArray(element)) {
-        this.flattenDestinations(element, flattened);
+        this.flattenPointers(element, flattened);
       } else if (typeof element === 'symbol') {
         flattened.push(this.context.nodes.get(element));
       } else {
@@ -31,13 +31,29 @@ export default class RAudioNode extends RComponent {
   }
 
   /**
+   * Generates arguments for AudioNode.connect
+   * Useful because we can, for instance, override the channel assignment logic for ChannelSplitter etc.
+   *
+   * @param      {function} destination The AudioNode to connect to
+   * @param      {number} destinationIndex The index of the AudioNode among other destinations
+   * @param      {string|null} toParam The name of the AudioParam to connect to (or undefined)
+   * @param      {number} fromChannel The index of the chosen output channel of this node (default is 0)
+   * @param      {number} toChannel The index of the chosen input channel of the destination node (default is 0)
+   */
+  getConnectionArguments(destination, destinationIndex, toParam, fromChannel = 0, toChannel = 0) {
+    const connectTarget = toParam ? destination[toParam] : destination;
+
+    return [ connectTarget ].concat(toParam ? [] : [ fromChannel, toChannel ]);
+  }
+
+  /**
    * Connects the given AudioNode to this RAudioNode's destinations.
    * Abstracts away this operation as it's used in multiple lifecycle stages.
    *
    * @param      {function} destinationFunction The function that will return the destinations
    * @param      {AudioNode}  webAudioNode  The web audio node
    */
-  connectToDestinations(destinationFunction, webAudioNode) {
+  connectToAllDestinations(destinationFunction, webAudioNode) {
     webAudioNode.disconnect();
 
     if (destinationFunction && !this.props.disconnected) {
@@ -45,9 +61,16 @@ export default class RAudioNode extends RComponent {
 
       if (!(destinations instanceof Array)) destinations = [ destinations ];
 
-      this.flattenDestinations(destinations).forEach(destination => {
+      this.flattenPointers(destinations).forEach((destination, di) => {
         if (destination) {
-          webAudioNode.connect(this.props.connectToParam ? destination[this.props.connectToParam] : destination);
+          const connectArgs = this.getConnectionArguments(
+            destination,
+            di,
+            this.props.connectToParam,
+            this.props.connectFromChannel,
+            this.props.connectToChannel);
+
+          webAudioNode.connect(...connectArgs);
         }
       });
     }
@@ -72,7 +95,7 @@ export default class RAudioNode extends RComponent {
   // we use DidUpdate to connect to new destinations, because WillUpdate might get called before the new destinations are ready
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.destination !== this.props.destination) {
-      this.connectToDestinations(this.props.destination, this.node);
+      this.connectToAllDestinations(this.props.destination, this.node);
     }
   }
 
@@ -83,11 +106,12 @@ export default class RAudioNode extends RComponent {
     if (this.props.parent) {
       const parents = this.props.parent();
 
-      parents.forEach(parentIdentifier => {
+      this.flattenPointers(parents).forEach((parentIdentifier, parentIndex) => {
         const parent = this.context.nodes.get(parentIdentifier);
         if (!parent) return;
 
         try {
+          console.log(parent);
           parent.disconnect(this.node);
         } catch(e) {
           console.warn(e);
@@ -116,7 +140,7 @@ export default class RAudioNode extends RComponent {
   }
 
   componentDidMount() {
-    this.connectToDestinations(this.props.destination, this.node);
+    this.connectToAllDestinations(this.props.destination, this.node);
   }
 
   render() {

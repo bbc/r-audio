@@ -5,6 +5,7 @@ import RComponent from './../base/component.jsx';
 import * as AudioNodes from './../audio-nodes/index.jsx';
 import RSplit from './split.jsx';
 import RCycle from './cycle.jsx';
+import RSplitChannels from './split-channels.jsx';
 
 const connectableTypes = [
   AudioNodes.RGain,
@@ -14,7 +15,9 @@ const connectableTypes = [
   AudioNodes.RConvolver,
   AudioNodes.RWaveShaper,
   AudioNodes.RDynamicsCompressor,
-  RSplit, RCycle
+  AudioNodes.RChannelSplitter,
+  AudioNodes.RChannelMerger,
+  RSplit, RCycle, RSplitChannels
 ];
 
 /**
@@ -149,8 +152,15 @@ class RPipeline extends RComponent {
     const pipelineProps = {
       destination: getDestination,
       parent: getParent,
-      identifier: identifiedChild.identifier
+      identifier: identifiedChild.identifier,
     };
+
+    if (childIndex === childrenArray.length - 1) {
+      Object.assign(pipelineProps, {
+        connectFromChannel: this.props.connectFromChannel || 0,
+        connectToChannel: this.props.connectToChannel || 0
+      });
+    }
 
     return React.cloneElement(identifiedChild.component, pipelineProps);
   }

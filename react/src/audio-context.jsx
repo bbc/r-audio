@@ -47,7 +47,7 @@ export default class RAudioContext extends React.Component {
 
         const audioContextProps = {
           destination: () => this._context.destination,
-          identifier: Symbol()
+          identifier: Symbol(child.type.name)
         };
 
         return React.cloneElement(child, audioContextProps);

@@ -7,6 +7,8 @@ import { RPipeline } from './src/graph/pipeline.jsx';
 import RSplit from './src/graph/split.jsx';
 import RCycle from './src/graph/cycle.jsx';
 
+import RSplitChannels from './src/graph/split-channels.jsx';
+
 import ROscillator from './src/audio-nodes/oscillator.jsx';
 import RGain from './src/audio-nodes/gain.jsx';
 import RBiquadFilter from './src/audio-nodes/biquad-filter.jsx';
@@ -137,6 +139,8 @@ const delays = (
             <RGain gain={.4} />
             <RStereoPanner pan={-1}/>
           </RPipeline>
+        </RCycle>
+        <RCycle>
           <RPipeline>
             <RDelay delayTime={.3} />
             <RGain gain={.4} />
@@ -180,11 +184,19 @@ class BufferSourceExample extends React.Component {
     return (
       <RAudioContext debug={true} onInit={ctx => this.audioContext = ctx}>
         <RPipeline>
-          <RBufferSource buffer={this.state.buffer} />
-          <RConvolver buffer={this.state.buffer} />
-          <RWaveShaper curve={this.makeDistortionCurve(200)} />
-          <RDynamicsCompressor threshold={-50} knee={40}/>
-          <RGain gain={.9} />
+          <RBufferSource buffer={this.state.buffer} loop/>
+          <RSplitChannels channelCount={2}>
+            <RPipeline>
+              <RWaveShaper curve={this.makeDistortionCurve(200)} />
+              <RConvolver buffer={this.state.buffer} />
+              <RDynamicsCompressor threshold={-50} knee={40}/>
+              <RGain gain={.5} />
+            </RPipeline>
+            <RPipeline>
+              <ROscillator frequency={1} type="sine" detune={0} connectToParam="gain" />
+              <RGain gain={1} />
+            </RPipeline>
+          </RSplitChannels>
         </RPipeline>
       </RAudioContext>
     )
