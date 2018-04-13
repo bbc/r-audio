@@ -1,3 +1,4 @@
+import RAnalyser from './analyser.jsx';
 import RAudioWorklet from './audio-worklet.jsx';
 import RBiquadFilter from './biquad-filter.jsx';
 import RBufferSource from './buffer-source.jsx';
@@ -15,6 +16,7 @@ import RStereoPanner from './stereo-panner.jsx';
 import RWaveShaper from './wave-shaper.jsx';
 
 export {
+  RAnalyser,
   RAudioWorklet,
   RBiquadFilter,
   RBufferSource,

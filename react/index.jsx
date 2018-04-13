@@ -19,6 +19,7 @@ import RConvolver from './src/audio-nodes/convolver.jsx';
 import RWaveShaper from './src/audio-nodes/wave-shaper.jsx';
 import RDynamicsCompressor from './src/audio-nodes/dynamics-compressor.jsx';
 import RPanner from './src/audio-nodes/panner.jsx';
+import RAnalyser from './src/audio-nodes/analyser.jsx';
 
 import RMediaElementSource from './src/audio-nodes/media-element-source.jsx';
 import RMediaStreamSource from './src/audio-nodes/media-stream-source.jsx';
@@ -283,6 +284,21 @@ class AudioWorkletExample extends React.Component {
           this.state.ready ? (
             <RPipeline>
               <RMediaStreamSource stream={this.state.stream} />
+              <RAnalyser fftSize={2048}>
+              {
+                proxy => {
+                  const data = new Float32Array(proxy.frequencyBinCount);
+                  // when this function first runs, there will be no data yet
+                  // so wait a bit
+                  // in reality one might want to save the `proxy` object and call it independently
+                  // for instance, inside a `requestAnimationFrame` call
+                  setTimeout(() => {
+                    proxy.getFloatFrequencyData(data);
+                    console.log(data);
+                  }, 3000);
+                }
+              }
+              </RAnalyser>
               <RDelay delayTime={.3} bitDepth={4} />
               <RSplitChannels channelCount={2}>
                 <RAudioWorklet worklet="bit-crusher" bitDepth={4} frequencyReduction={.5}/>

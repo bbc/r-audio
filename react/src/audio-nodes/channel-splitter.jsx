@@ -5,9 +5,7 @@ export default class RChannelSplitter extends RAudioNode {
   constructor(props) {
     super(props);
 
-    this.params = {
-      channelCount: props.channelCount
-    };
+    this.params = {};
   }
 
   // override of RAudioNode.getConnectionArguments

@@ -8,6 +8,7 @@ import RCycle from './cycle.jsx';
 import RSplitChannels from './split-channels.jsx';
 
 const connectableTypes = [
+  AudioNodes.RAnalyser,
   AudioNodes.RAudioWorklet,
   AudioNodes.RBiquadFilter,
   AudioNodes.RChannelMerger,
