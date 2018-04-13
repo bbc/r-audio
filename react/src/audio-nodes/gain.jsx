@@ -6,8 +6,8 @@ export default class RGain extends RAudioNode {
     super(props);
 
     this.params = {
-      gain: props.gain
-    };
+      gain: this.props.gain
+    }
   }
 
   componentWillMount() {

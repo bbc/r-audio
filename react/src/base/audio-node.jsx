@@ -14,6 +14,7 @@ export default class RAudioNode extends RComponent {
     // dictionary of AudioNode parameters (either AudioParams or object properties)
     this.params = {};
     this.connectToAllDestinations = this.connectToAllDestinations.bind(this);
+    this.setParam = this.setParam.bind(this);
   }
 
   flattenPointers(destinations, flattened = []) {
@@ -127,15 +128,21 @@ export default class RAudioNode extends RComponent {
       if (!(p in props)) continue;
 
       if (this.node[p] instanceof AudioParam) {
-        if (props.transitionDuration) {
-          this.node[p].linearRampToValueAtTime(props[p], this.context.audio.currentTime + props.transitionDuration);
-        } else {
-          this.node[p].setValueAtTime(props[p], this.context.audio.currentTime);
-        }
-      }
-      else {
+        this.setParam(this.node[p], props[p], props.transitionDuration);
+      } else if (this.node.parameters && this.node.parameters.has(p)) {
+        let param = this.node.parameters.get(p);
+        this.setParam(param, props[p], props.transitionDuration);
+      } else {
         if (this.node[p] !== props[p]) this.node[p] = props[p];
       }
+    }
+  }
+
+  setParam(param, value, transitionDuration) {
+    if (transitionDuration) {
+      param.linearRampToValueAtTime(value, this.context.audio.currentTime + props.transitionDuration);
+    } else {
+      param.setValueAtTime(value, this.context.audio.currentTime);
     }
   }
 

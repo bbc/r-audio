@@ -8,16 +8,17 @@ import RCycle from './cycle.jsx';
 import RSplitChannels from './split-channels.jsx';
 
 const connectableTypes = [
-  AudioNodes.RGain,
+  AudioNodes.RAudioWorklet,
   AudioNodes.RBiquadFilter,
-  AudioNodes.RStereoPanner,
-  AudioNodes.RDelay,
-  AudioNodes.RConvolver,
-  AudioNodes.RWaveShaper,
-  AudioNodes.RDynamicsCompressor,
-  AudioNodes.RChannelSplitter,
   AudioNodes.RChannelMerger,
+  AudioNodes.RChannelSplitter,
+  AudioNodes.RConvolver,
+  AudioNodes.RDelay,
+  AudioNodes.RDynamicsCompressor,
+  AudioNodes.RGain,
   AudioNodes.RPanner,
+  AudioNodes.RStereoPanner,
+  AudioNodes.RWaveShaper,
   RSplit, RCycle, RSplitChannels
 ];
 

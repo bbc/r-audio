@@ -23,6 +23,8 @@ import RPanner from './src/audio-nodes/panner.jsx';
 import RMediaElementSource from './src/audio-nodes/media-element-source.jsx';
 import RMediaStreamSource from './src/audio-nodes/media-stream-source.jsx';
 
+import RAudioWorklet from './src/audio-nodes/audio-worklet.jsx';
+
 export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner, RWaveShaper, RDynamicsCompressor };
 
 const plays = (
@@ -245,7 +247,7 @@ class MediaStreamSourceExample extends React.Component {
           <RCycle>
             <RPipeline>
               <RDelay delayTime={.3} />
-              <RGain gain={.8} />
+              <RGain gain={0} />
             </RPipeline>
           </RCycle>
           <RPanner positionY={0} positionX={0} panningModel="HRTF"/>
@@ -255,7 +257,47 @@ class MediaStreamSourceExample extends React.Component {
   }
 }
 
+class AudioWorkletExample extends React.Component {
+  constructor() {
+    super();
 
-render(<MediaStreamSourceExample />,
+    this.state = { stream: null, ready: false };
+  }
+
+  loadWorkletAndStream(ctx) {
+    const streamPromise = navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .then(stream => this.setState({ stream }))
+      .catch(err => console.log('The following gUM error occured: ' + err));
+
+    const workletPromise = ctx.audioWorklet
+      .addModule('./bit-crusher.js')
+
+    Promise.all([ streamPromise, workletPromise ])
+      .then(() => this.setState({ ready: true }));
+  }
+
+  render() {
+    return (
+      <RAudioContext debug={true} onInit={ctx => this.loadWorkletAndStream.bind(this)(ctx)}>
+        {
+          this.state.ready ? (
+            <RPipeline>
+              <RMediaStreamSource stream={this.state.stream} />
+              <RDelay delayTime={.3} bitDepth={4} />
+              <RSplitChannels channelCount={2}>
+                <RAudioWorklet worklet="bit-crusher" bitDepth={4} frequencyReduction={.5}/>
+                <RAudioWorklet worklet="bit-crusher" bitDepth={4} frequencyReduction={.5}/>
+              </RSplitChannels>
+              <RGain gain={0.4} />
+            </RPipeline>
+          ) : null
+        }
+      </RAudioContext>
+    );
+  }
+}
+
+
+render(<AudioWorkletExample />,
 document.getElementById('app')
 );
