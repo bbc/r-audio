@@ -18,6 +18,10 @@ import RBufferSource from './src/audio-nodes/buffer-source.jsx';
 import RConvolver from './src/audio-nodes/convolver.jsx';
 import RWaveShaper from './src/audio-nodes/wave-shaper.jsx';
 import RDynamicsCompressor from './src/audio-nodes/dynamics-compressor.jsx';
+import RPanner from './src/audio-nodes/panner.jsx';
+
+import RMediaElementSource from './src/audio-nodes/media-element-source.jsx';
+import RMediaStreamSource from './src/audio-nodes/media-stream-source.jsx';
 
 export { RAudioContext, RPlay, RPipeline, RSplit, ROscillator, RGain, RBiquadFilter, RStereoPanner, RWaveShaper, RDynamicsCompressor };
 
@@ -203,7 +207,55 @@ class BufferSourceExample extends React.Component {
   }
 }
 
+class MediaElementSourceExample extends React.Component {
+  constructor(props) {
+    super(props);
+    this.audio = new Audio('/assets/audio/b.wav');
+    this.audio.autoplay = true;
+    this.audio.loop = true;
+  }
 
-render(<BufferSourceExample />,
+  render() {
+    return (
+      <RAudioContext debug={true}>
+        <RPipeline>
+          <RMediaElementSource element={this.audio} />
+        </RPipeline>
+      </RAudioContext>
+    )
+  }
+}
+
+class MediaStreamSourceExample extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { stream: null };
+
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .then(stream => this.setState({ stream }))
+      .catch(err => console.log('The following gUM error occured: ' + err));
+  }
+
+  render() {
+    return this.state.stream ? (
+      <RAudioContext debug={true}>
+        <RPipeline>
+          <RMediaStreamSource stream={this.state.stream} />
+          <RCycle>
+            <RPipeline>
+              <RDelay delayTime={.3} />
+              <RGain gain={.8} />
+            </RPipeline>
+          </RCycle>
+          <RPanner positionY={0} positionX={0} panningModel="HRTF"/>
+        </RPipeline>
+      </RAudioContext>
+    ) : null;
+  }
+}
+
+
+render(<MediaStreamSourceExample />,
 document.getElementById('app')
 );

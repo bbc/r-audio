@@ -17,6 +17,7 @@ const connectableTypes = [
   AudioNodes.RDynamicsCompressor,
   AudioNodes.RChannelSplitter,
   AudioNodes.RChannelMerger,
+  AudioNodes.RPanner,
   RSplit, RCycle, RSplitChannels
 ];
 
