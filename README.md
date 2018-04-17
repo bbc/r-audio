@@ -9,6 +9,13 @@
 - supports all non-deprecated audio nodes including `AudioWorklet` (except `IIRFilterNode` as of 17 April 2018)
 - allows interspersed HTML components in the graph
 
+Any directed graph can be created by composing the following components:
+
++ `RPipeline` connects child nodes in a series
++ `RSplit` connects child nodes in parallel
++ `RCycle` connects child nodes to themselves
++ `RSplitChannels` is like RSplit, but connects a different channel to each child and merges them at the end
+
 ## Setup
 
 ```bash
