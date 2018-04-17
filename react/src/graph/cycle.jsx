@@ -1,7 +1,7 @@
 import React from 'react';
 import RAudioNode from './../base/audio-node.jsx';
 import RComponent from './../base/component.jsx';
-import { RPipeline } from './pipeline.jsx';
+import RPipeline from './pipeline.jsx';
 
 /**
  * A RComponent which connects each child to itself as well as the destination

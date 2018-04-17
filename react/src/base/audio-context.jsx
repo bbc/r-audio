@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RComponent from './base/component.jsx';
+import RComponent from './component.jsx';
 
 /**
  * Contains and manages the Web Audio graph.

@@ -28,7 +28,7 @@ const connectableTypes = [
  *
  * @class      RPipeline (name)
  */
-class RPipeline extends RComponent {
+export default class RPipeline extends RComponent {
   constructor(props) {
     super(props);
     this.resolveDestination = this.resolveDestination.bind(this);
@@ -194,6 +194,4 @@ class RPipeline extends RComponent {
   static isConnectableType(type) {
     return [...connectableTypes, this].includes(type);
   }
-}
-
-export { RPipeline, connectableTypes };
+};

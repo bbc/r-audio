@@ -140,7 +140,7 @@ export default class RAudioNode extends RComponent {
 
   setParam(param, value, transitionDuration) {
     if (transitionDuration) {
-      param.linearRampToValueAtTime(value, this.context.audio.currentTime + props.transitionDuration);
+      param.linearRampToValueAtTime(value, this.context.audio.currentTime + this.props.transitionDuration);
     } else {
       param.setValueAtTime(value, this.context.audio.currentTime);
     }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import RComponent from './../base/component.jsx';
 import RSplit from './split.jsx';
-import { RPipeline } from './pipeline.jsx';
+import RPipeline from './pipeline.jsx';
 import RChannelSplitter from '../audio-nodes/channel-splitter.jsx';
 import RChannelMerger from '../audio-nodes/channel-merger.jsx';
 
