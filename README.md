@@ -24,7 +24,9 @@ npm install
 npm run dev
 ```
 
-The demo page will be served at `localhost:8081`.
+The demo page will be served at `localhost:8081`. Use a recent version of Chrome or Firefox for the best experience.
+
+Firefox Web Audio developer tool is especially handy (bear in mind Firefox does not support AudioWorklet as of 17 April 2018).
 
 ### Examples
 
