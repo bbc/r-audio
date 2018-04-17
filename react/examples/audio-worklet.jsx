@@ -1,3 +1,7 @@
+/**
+This example demonstrates how to use an AudioWorklet in r-audio.
+It also shows a RAnalyser in action.
+**/
 import React from 'react';
 import { render } from 'react-dom';
 

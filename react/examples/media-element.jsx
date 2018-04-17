@@ -1,3 +1,7 @@
+/**
+This example demonstrates plugging a HTML5 Audio element to the r-audio graph using `RMediaElementSource`.
+A reference to the audio element could also be obtained via React refs.
+**/
 import React from 'react';
 import { render } from 'react-dom';
 

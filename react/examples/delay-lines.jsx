@@ -1,3 +1,7 @@
+/**
+This example demonstrates how one can create feedback delay lines using the `RCycle` component.
+Make sure to always include a `RGain` with `gain` < 1 to avoid infinite feedback.
+**/
 import React from 'react';
 import { render } from 'react-dom';
 

@@ -1,3 +1,7 @@
+/**
+This example demonstrates plugging a MediaStream object (from either a WebRTC peer or the native audio input device)
+into the r-audio graph using `RMediaStreamSource`.
+**/
 import React from 'react';
 import { render } from 'react-dom';
 

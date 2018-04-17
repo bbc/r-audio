@@ -1,3 +1,9 @@
+/**
+This example demonstrates how r-audio handles various graph configurations,
+including non-connectable nodes in pipelines and deeply nested parallel/serial connections.
+
+It also shows how to create 'dead-end' branches using the `disconnected` attribute.
+**/
 import React from 'react';
 import { render } from 'react-dom';
 

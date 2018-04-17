@@ -1,3 +1,7 @@
+/**
+This example demonstrates initialising a RBufferSource with a decoded AudioBuffer.
+It also shows how to process channels separately.
+**/
 import React from 'react';
 import { render } from 'react-dom';
 

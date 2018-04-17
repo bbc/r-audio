@@ -1,3 +1,9 @@
+/**
+This example demonstrates how r-audio graphs can be mutated via React state.
+r-audio takes care of reconfiguring the connections and instantiating new nodes as necessary.
+
+Notice that we can embed a HTML `<button>` element in the graph, too.
+**/
 import React from 'react';
 import { render } from 'react-dom';
 
