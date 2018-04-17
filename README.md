@@ -19,10 +19,41 @@ npm run dev
 
 The demo page will be served at `localhost:8081`.
 
-### Example
+### Examples
 
-Working code examples are in the `/examples` directory.
+Full working code examples are in the `/examples` directory.
 
+### A stereo delay on an oscillator with feedback
+```jsx
+(
+  <RAudioContext debug={true}>
+    <RPipeline>
+      <ROscillator frequency={220} type="triangle" detune={0} />
+      <ROscillator frequency={1} type="square" detune={0} connectToParam="gain" />
+      <RGain gain={1} />
+      <RSplit>
+        <RGain gain={.5} />
+        <RCycle>
+          <RPipeline>
+            <RDelay delayTime={.1} />
+            <RGain gain={.4} />
+            <RStereoPanner pan={-1}/>
+          </RPipeline>
+        </RCycle>
+        <RCycle>
+          <RPipeline>
+            <RDelay delayTime={.3} />
+            <RGain gain={.4} />
+            <RStereoPanner pan={1}/>
+          </RPipeline>
+        </RCycle>
+      </RSplit>
+    </RPipeline>
+  </RAudioContext>
+)
+```
+
+### Stereo waveshaper + amplitude modulation on a WAV loop
 ```jsx
 (
   <RAudioContext debug={true} onInit={ctx => this.audioContext = ctx}>
@@ -41,6 +72,43 @@ Working code examples are in the `/examples` directory.
         </RPipeline>
       </RSplitChannels>
     </RPipeline>
+  </RAudioContext>
+)
+```
+
+### AudioWorklet bitcrusher + Analyser
+```jsx
+(
+  <RAudioContext debug={true} onInit={ctx => this.loadWorkletAndStream.bind(this)(ctx)}>
+  {
+    // the `ready` flag is set when the worklet is instantiated
+    this.state.ready ? (
+      <RPipeline>
+        <RMediaStreamSource stream={this.state.stream} />
+        <RAnalyser fftSize={2048}>
+        {
+          proxy => {
+            const data = new Float32Array(proxy.frequencyBinCount);
+            // when this function first runs, there will be no data yet
+            // so wait a bit
+            // in reality one might want to save the `proxy` object and call it independently
+            // for instance, inside a `requestAnimationFrame` call
+            setTimeout(() => {
+              proxy.getFloatFrequencyData(data);
+              console.log(data);
+            }, 3000);
+          }
+        }
+        </RAnalyser>
+        <RDelay delayTime={.3} bitDepth={4} />
+        <RSplitChannels channelCount={2}>
+          <RAudioWorklet worklet="bit-crusher" bitDepth={4} frequencyReduction={.5}/>
+          <RAudioWorklet worklet="bit-crusher" bitDepth={4} frequencyReduction={.5}/>
+        </RSplitChannels>
+        <RGain gain={0.4} />
+      </RPipeline>
+    ) : null
+  }
   </RAudioContext>
 )
 ```
