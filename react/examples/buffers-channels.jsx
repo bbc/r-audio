@@ -1,7 +1,3 @@
-/**
-This example demonstrates initialising a RBufferSource with a decoded AudioBuffer.
-It also shows how to process channels separately.
-**/
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -50,6 +46,11 @@ export default class BuffersAndChannels extends React.Component {
   render() {
     return (
       <RAudioContext debug={true} onInit={ctx => this.audioContext = ctx}>
+        <article>
+          <h1>Buffers and Channels</h1>
+          <p>This example demonstrates initialising a <code>RBufferSource</code> with a decoded <code>AudioBuffer</code>.</p>
+          <p>It also shows how to process channels separately.</p>
+        </article>
         <RPipeline>
           <RBufferSource buffer={this.state.buffer} loop start={0}/>
           <RSplitChannels channelCount={2}>

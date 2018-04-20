@@ -10,7 +10,7 @@ import Mutation from './mutation.jsx';
 
 const examples = {
   'audio-worklet': <AudioWorkletExample/>,
-  'delay-lines': <DelayLineExample />,
+  'delay-lines-scheduling': <DelayLineExample />,
   'complex-effects-graph': <ComplexGraph/>,
   'buffers-channels': <BuffersAndChannels/>,
   'media-element': <MediaElementSourceExample/>,

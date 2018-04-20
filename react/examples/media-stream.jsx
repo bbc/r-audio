@@ -1,6 +1,5 @@
 /**
-This example demonstrates plugging a MediaStream object (from either a WebRTC peer or the native audio input device)
-into the r-audio graph using `RMediaStreamSource`.
+
 **/
 import React from 'react';
 import { render } from 'react-dom';
@@ -30,6 +29,11 @@ export default class MediaStreamSourceExample extends React.Component {
   render() {
     return this.state.stream ? (
       <RAudioContext debug={true}>
+        <article>
+          <h1>Media Stream</h1>
+          <p>This example demonstrates plugging a<code>MediaStream</code> object (from either a WebRTC peer or the native audio input device)
+          into the <em>r-audio</em> graph using <code>RMediaStreamSource</code>.</p>
+        </article>
         <RPipeline>
           <RMediaStreamSource stream={this.state.stream} />
           <RCycle>

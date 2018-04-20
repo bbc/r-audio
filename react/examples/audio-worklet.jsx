@@ -1,7 +1,3 @@
-/**
-This example demonstrates how to use an AudioWorklet in r-audio.
-It also shows a RAnalyser in action.
-**/
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -38,6 +34,11 @@ export default class AudioWorkletExample extends React.Component {
   render() {
     return (
       <RAudioContext debug={true} onInit={ctx => this.loadWorkletAndStream.bind(this)(ctx)}>
+        <article>
+          <h1>Buffers and Channels</h1>
+          <p>This example demonstrates how to use an <code>AudioWorklet</code> in <em>r-audio</em>. It also shows a RAnalyser in action.</p>
+          <p>Notice that the graph only renders after both the media stream and the worklet have been initialised.</p>
+        </article>
         {
           this.state.ready ? (
             <RPipeline>

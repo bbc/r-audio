@@ -1,9 +1,3 @@
-/**
-This example demonstrates how r-audio handles various graph configurations,
-including non-connectable nodes in pipelines and deeply nested parallel/serial connections.
-
-It also shows how to create 'dead-end' branches using the `disconnected` attribute.
-**/
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -20,6 +14,13 @@ import {
 
 const pipeline = (detune, gain, filterFreq, pan) => (
   <RAudioContext debug={true}>
+    <article>
+      <h1>Complex effects graph</h1>
+      <p>This example demonstrates how <em>r-audio</em> handles various graph configurations,
+      including non-connectable nodes in pipelines and deeply nested parallel/serial connections.</p>
+
+      <p>It also shows how to create 'dead-end' branches using the <code>disconnected</code> attribute.</p>
+    </article>
     <RPipeline>
       <ROscillator start={0} frequency={440} type="triangle" detune={0}/>
       <ROscillator start={0} frequency={220} type="triangle" detune={detune} transitionDuration={.5}/>

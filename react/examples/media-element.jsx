@@ -1,7 +1,3 @@
-/**
-This example demonstrates plugging a HTML5 Audio element to the r-audio graph using `RMediaElementSource`.
-A reference to the audio element could also be obtained via React refs.
-**/
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -26,6 +22,10 @@ export default class MediaElementSourceExample extends React.Component {
   render() {
     return (
       <RAudioContext debug={true}>
+        <article>
+          <h1>Media Element</h1>
+          <p>This example demonstrates plugging a HTML5 Audio element to the <em>r-audio</em> graph using <code>RMediaElementSource</code>. A reference to the audio element could also be obtained via React refs.</p>
+        </article>
         <RPipeline>
           <RMediaElementSource element={this.audio} />
           <RCycle>

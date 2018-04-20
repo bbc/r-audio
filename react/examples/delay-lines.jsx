@@ -1,6 +1,5 @@
 /**
-This example demonstrates how one can create feedback delay lines using the `RCycle` component.
-Make sure to always include a `RGain` with `gain` < 1 to avoid infinite feedback.
+
 **/
 import React from 'react';
 import { render } from 'react-dom';
@@ -45,6 +44,14 @@ export default class DelayLineExample extends React.Component {
   render() {
     return (
       <RAudioContext debug={true} onInit={this.onContextInit}>
+        <article>
+          <h1>Delay lines &amp; scheduling</h1>
+          <p>
+            This example demonstrates how one can create feedback delay lines using the <code>RCycle</code> component.
+            It also shows how scheduling works.
+          </p>
+          <p>Make sure to always include a <code>RGain</code> with `gain` &lt; 1 to avoid infinite feedback.</p>
+        </article>
         <RPipeline>
           <ROscillator
             frequency={220} type="triangle" detune={0}
