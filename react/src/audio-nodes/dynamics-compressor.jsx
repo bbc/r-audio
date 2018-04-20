@@ -1,7 +1,7 @@
 import React from 'react';
-import RAudioNode from './../base/audio-node.jsx';
+import RConnectableNode from './../base/connectable-node.jsx';
 
-export default class RDynamicsCompressor extends RAudioNode {
+export default class RDynamicsCompressor extends RConnectableNode {
   constructor(props) {
     super(props);
 

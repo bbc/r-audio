@@ -1,8 +1,8 @@
 import React from 'react';
-import RAudioNode from './../base/audio-node.jsx';
+import RConnectableNode from './../base/connectable-node.jsx';
 import PropTypes from 'prop-types';
 
-export default class RAnalyser extends RAudioNode {
+export default class RAnalyser extends RConnectableNode {
   constructor(props) {
     super(props);
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import RAudioNode from './../base/audio-node.jsx';
 import RComponent from './../base/component.jsx';
-import RPipeline from './pipeline.jsx';
+
+import { isConnectable } from './utils.jsx';
 
 /**
  * A RComponent which connects each child to itself as well as the destination
@@ -35,9 +36,7 @@ export default class RCycle extends RComponent {
       .map(c => ({ component: c,  identifier: Symbol(c.type.name + Date.now()) }))
       .map((childTuple, childIndex, childrenArray) => {
         const type = childTuple.component.type;
-        if (
-          RComponent.isPrototypeOf(childTuple.component.type) &&
-          (RPipeline.isConnectableType(type))) {
+        if (RComponent.isPrototypeOf(childTuple.component.type) && isConnectable(childTuple.component)) {
           this.inputs.push(childTuple.identifier);
         }
 

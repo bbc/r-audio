@@ -1,7 +1,8 @@
 import React from 'react';
 import RAudioNode from './../base/audio-node.jsx';
 import RComponent from './../base/component.jsx';
-import RPipeline from './pipeline.jsx';
+
+import { isConnectable } from './utils.jsx';
 
 /**
  * A RComponent which connects its children in parallel, creating inbound branches if necessary.
@@ -35,9 +36,7 @@ export default class RSplit extends RComponent {
       .map(c => ({ component: c,  identifier: Symbol(c.type.name + Date.now()) }))
       .map((childTuple, childIndex, childrenArray) => {
         const type = childTuple.component.type;
-        if (
-          RComponent.isPrototypeOf(type) &&
-          (RPipeline.isConnectableType(type))) {
+        if (RComponent.isPrototypeOf(type) && isConnectable(childTuple.component)) {
           this.inputs.push(childTuple.identifier);
         }
 

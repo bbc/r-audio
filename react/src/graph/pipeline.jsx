@@ -1,27 +1,7 @@
 import React from 'react';
-import RAudioNode from './../base/audio-node.jsx';
 import RComponent from './../base/component.jsx';
 
-import * as AudioNodes from './../audio-nodes/index.jsx';
-import RSplit from './split.jsx';
-import RCycle from './cycle.jsx';
-import RSplitChannels from './split-channels.jsx';
-
-const connectableTypes = [
-  AudioNodes.RAnalyser,
-  AudioNodes.RAudioWorklet,
-  AudioNodes.RBiquadFilter,
-  AudioNodes.RChannelMerger,
-  AudioNodes.RChannelSplitter,
-  AudioNodes.RConvolver,
-  AudioNodes.RDelay,
-  AudioNodes.RDynamicsCompressor,
-  AudioNodes.RGain,
-  AudioNodes.RPanner,
-  AudioNodes.RStereoPanner,
-  AudioNodes.RWaveShaper,
-  RSplit, RCycle, RSplitChannels
-];
+import { isConnectable } from './utils.jsx';
 
 /**
  * A RComponent which connects its children in a series, creating inbound branches if necessary.
@@ -68,11 +48,11 @@ export default class RPipeline extends RComponent {
 
     if (currentIndex === childrenArray.length - 1) {
       destinationFunction = () => this.props.destination();
-    } else if (!RPipeline.isConnectableType(childrenArray[currentIndex + 1].component.type)) {
+    } else if (!isConnectable(childrenArray[currentIndex + 1].component)) {
       let childIndex = currentIndex + 1;
 
       while(childrenArray[++childIndex]) {
-        if (RPipeline.isConnectableType(childrenArray[childIndex].component.type)) break;
+        if (isConnectable(childrenArray[childIndex].component)) break;
       }
 
       if (childIndex === currentIndex + 1 || !childrenArray[childIndex]) {
@@ -100,14 +80,14 @@ export default class RPipeline extends RComponent {
         // the first preceding RComponent is always a valid parent
         parents.push(child.identifier);
         // if it's a connectable type it's also the only parent
-        if (RPipeline.isConnectableType(child.component.type)) return () => parents;
+        if (isConnectable(child.component)) return () => parents;
         // if not, continue
         child = children.pop();
       }
 
       // look for all preceding RComponents until we hit one which is connectable
       while (child) {
-        if (RPipeline.isConnectableType(child.component.type)
+        if (isConnectable(child.component)
           || !RComponent.isPrototypeOf(child.component.type)) break;
 
         parents.push(child.identifier);
@@ -130,7 +110,7 @@ export default class RPipeline extends RComponent {
       identifier: Symbol(component.type.name + Date.now())
     };
 
-    if (!this.foundFirstConnectableType && RPipeline.isConnectableType(component.type)) {
+    if (!this.foundFirstConnectableType && isConnectable(component)) {
       identifiedChild.identifier = this.props.identifier;
       this.foundFirstConnectableType = true;
     }
@@ -189,9 +169,5 @@ export default class RPipeline extends RComponent {
     }
 
     return children;
-  }
-
-  static isConnectableType(type) {
-    return [...connectableTypes, this].includes(type);
   }
 };
