@@ -13,6 +13,7 @@ import {
   ROscillator,
   RGain,
   RBufferSource,
+  RConstantSource,
   RConvolver,
   RWaveShaper,
   RDynamicsCompressor
@@ -56,6 +57,7 @@ export default class BuffersAndChannels extends React.Component {
               <RWaveShaper curve={this.makeDistortionCurve(200)} />
               <RConvolver buffer={this.state.buffer} />
               <RDynamicsCompressor threshold={-50} knee={40}/>
+              <RConstantSource offset={0} connectToParam="gain" start={0}/>
               <RGain gain={.5} />
             </RPipeline>
             <RPipeline>

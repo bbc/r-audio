@@ -4,6 +4,7 @@ import RBiquadFilter from './biquad-filter.jsx';
 import RBufferSource from './buffer-source.jsx';
 import RChannelMerger from './channel-merger.jsx';
 import RChannelSplitter from './channel-splitter.jsx';
+import RConstantSource from './constant-source.jsx';
 import RConvolver from './convolver.jsx';
 import RDelay from './delay.jsx';
 import RDynamicsCompressor from './dynamics-compressor.jsx';
@@ -22,6 +23,7 @@ export {
   RBufferSource,
   RChannelMerger,
   RChannelSplitter,
+  RConstantSource,
   RConvolver,
   RDelay,
   RDynamicsCompressor,
