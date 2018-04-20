@@ -1,5 +1,5 @@
 import React from 'react';
-import RConnectableNode from './../base/audio-node.jsx';
+import RConnectableNode from './../base/connectable-node.jsx';
 
 export default class RBiquadFilter extends RConnectableNode {
   constructor(props) {

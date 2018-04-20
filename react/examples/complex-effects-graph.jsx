@@ -21,17 +21,17 @@ import {
 const pipeline = (detune, gain, filterFreq, pan) => (
   <RAudioContext debug={true}>
     <RPipeline>
-      <ROscillator frequency={440} type="triangle" detune={0}/>
-      <ROscillator frequency={220} type="triangle" detune={detune} transitionDuration={.5}/>
+      <ROscillator start={0} frequency={440} type="triangle" detune={0}/>
+      <ROscillator start={0} frequency={220} type="triangle" detune={detune} transitionDuration={.5}/>
       <RGain gain={gain} transitionDuration={1} name='gainToSplit'/>
       <RSplit>
-        <ROscillator frequency={330} type="triangle" detune={detune + 3} transitionDuration={.5} />
+        <ROscillator start={0} frequency={330} type="triangle" detune={detune + 3} transitionDuration={.5} />
         <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={0} transitionDuration={.8}/>
         <RPipeline>
           <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionDuration={.8}/>
           <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionDuration={.8}/>
           <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionDuration={.8}/>
-          <ROscillator frequency={1} type="sine" detune={0} connectToParam='pan' />
+          <ROscillator start={0} frequency={1} type="sine" detune={0} connectToParam='pan' />
           <RStereoPanner />
           <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={3} transitionDuration={.8} />
         </RPipeline>
@@ -40,8 +40,8 @@ const pipeline = (detune, gain, filterFreq, pan) => (
         </RPipeline>
       </RSplit>
       <RPipeline>
-        <ROscillator frequency={110} type="sawtooth" detune={0}/>
-        <ROscillator frequency={1} type="sine" detune={0} connectToParam='pan' />
+        <ROscillator start={0} frequency={110} type="sawtooth" detune={0}/>
+        <ROscillator start={0} frequency={1} type="sine" detune={0} connectToParam='pan' />
         <RStereoPanner />
       </RPipeline>
       <RGain gain={.8} transitionDuration={1}/>
