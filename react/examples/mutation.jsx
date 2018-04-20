@@ -22,7 +22,7 @@ export default class Mutation extends React.Component {
   constructor() {
     super();
     this.nodeCache = [
-      <ROscillator key={1} frequency={440} type="triangle" detune={0} />,
+      <ROscillator start={0} key={1} frequency={440} type="triangle" detune={0} />,
       <RBiquadFilter key={2} frequency={1000} gain={1} Q={1} type="lowpass" detune={0} transitionDuration={.8} />,
       <RStereoPanner key={4} />
     ];
@@ -45,9 +45,9 @@ export default class Mutation extends React.Component {
       <RAudioContext debug={true}>
         <RPipeline>
           <button onClick={this.change}>Mutate audio graph</button>
-          <ROscillator key={1} frequency={440} type="triangle" detune={0} />
+          <ROscillator start={0} key={1} frequency={440} type="triangle" detune={0} />
           <RSplit>
-            <ROscillator key={3} frequency={this.state.freq} type="triangle" detune={0} />
+            <ROscillator start={0} key={3} frequency={this.state.freq} type="triangle" detune={0} />
             <RBiquadFilter key={2} frequency={1000} gain={1} Q={1} type="lowpass" detune={0} transitionDuration={.8} />
             <RStereoPanner key={4} />
           </RSplit>
