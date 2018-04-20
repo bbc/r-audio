@@ -22,7 +22,7 @@ export default class DelayLineExample extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { periodicWave: null };
+    this.state = { periodicWave: null, start: 0, stop: 3 };
     // a simple waveform can be created with a series of periodically repeating numbers
     const realComponents = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1];
     // imaginary components can all be 0 for demo purposes
@@ -36,6 +36,9 @@ export default class DelayLineExample extends React.Component {
           { disableNormalization: true }
         )
       });
+
+      // schedule restart of the oscillator after 6 seconds
+      setTimeout(() => this.setState({ start: ctx.currentTime, stop: ctx.currentTime + 3 }), 6000);
     };
   }
 
@@ -43,8 +46,12 @@ export default class DelayLineExample extends React.Component {
     return (
       <RAudioContext debug={true} onInit={this.onContextInit}>
         <RPipeline>
-          <ROscillator frequency={220} type="triangle" detune={0} periodicWave={this.state.periodicWave} />
-          <ROscillator frequency={1} type="square" detune={0} connectToParam="gain" />
+          <ROscillator
+            frequency={220} type="triangle" detune={0}
+            periodicWave={this.state.periodicWave}
+            start={this.state.start}
+            stop={this.state.stop}/>
+          <ROscillator frequency={1} type="square" detune={0} connectToParam="gain" start={0}/>
           <RGain gain={1} />
           <RSplit>
             <RGain gain={.5} />

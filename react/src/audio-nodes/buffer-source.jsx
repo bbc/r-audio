@@ -1,7 +1,7 @@
 import React from 'react';
-import RAudioNode from './../base/audio-node.jsx';
+import RScheduledSource from './../base/scheduled-source.jsx';
 
-export default class RBufferSource extends RAudioNode {
+export default class RBufferSource extends RScheduledSource {
   constructor(props) {
     super(props);
 
@@ -15,18 +15,10 @@ export default class RBufferSource extends RAudioNode {
     };
 
     this.onEnded = this.onEnded.bind(this);
+    this.instantiateNode = this.instantiateNode.bind(this);
   }
 
-  // we need to make a new AudioBufferSourceNode after playback ends
-  onEnded() {
-    this.node = null;
-    this.componentWillMount();
-    this.connectToDestinations(this.props.destination, this.node);
-  }
-
-  componentWillMount() {
-    super.componentWillMount();
-
+  instantiateNode() {
     if (!this.node || !(this.node instanceof BufferSourceNode)) {
       this.node = this.context.audio.createBufferSource();
       this.node.addEventListener('ended', this.onEnded);
@@ -38,14 +30,26 @@ export default class RBufferSource extends RAudioNode {
     this.updateParams(this.props);
   }
 
-  componentDidMount() {
-    super.componentDidMount();
+  // we need to make a new AudioBufferSourceNode after playback ends
+  onEnded(e) {
+    super.onEnded(e);
+    this.instantiateNode();
+    this.connectToAllDestinations(this.props.destination, this.node);
+    if (this.props.onEnded) this.props.onEnded(e);
+  }
 
-    if (this.props.buffer) this.node.start(this.props.start || 0);
+  componentWillMount() {
+    super.componentWillMount();
+    this.instantiateNode();
+  }
+
+  componentDidMount() {
+    this.readyToPlay = !!this.props.buffer;
+    super.componentDidMount();
   }
 
   componentDidUpdate(prevProps, prevState) {
+    this.readyToPlay = !!this.props.buffer;
     super.componentDidUpdate(prevProps, prevState);
-    if (this.props.buffer) this.node.start(this.props.start || 0);
   }
 }

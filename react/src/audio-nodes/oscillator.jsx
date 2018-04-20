@@ -1,7 +1,7 @@
 import React from 'react';
-import RAudioNode from './../base/audio-node.jsx';
+import RScheduledSource from './../base/scheduled-source.jsx';
 
-export default class ROscillator extends RAudioNode {
+export default class ROscillator extends RScheduledSource {
   constructor(props) {
     super(props);
 
@@ -11,12 +11,19 @@ export default class ROscillator extends RAudioNode {
       type: props.type,
       periodicWave: props.periodicWave
     };
+
+    this.instantiateNode = this.instantiateNode.bind(this);
+    this.readyToPlay = true;
+    this.onEnded = this.onEnded.bind(this);
   }
 
-  componentWillMount() {
-    super.componentWillMount();
+  onEnded(e) {
+    super.onEnded(e);
+    if (this.props.onEnded) this.props.onEnded(e);
+  }
 
-    if (!this.node || !(this.node instanceof OscillatorNode)) {
+  instantiateNode() {
+    if (!this.node || !(this.node instanceof OscillatorNode) || this.playbackScheduled === false) {
       this.node = this.context.audio.createOscillator();
       this.node.addEventListener('ended', this.onEnded);
 
@@ -31,9 +38,9 @@ export default class ROscillator extends RAudioNode {
     this.updateParams(this.props);
   }
 
-  componentDidMount() {
-    super.componentDidMount();
-    this.node.start();
+  componentWillMount() {
+    super.componentWillMount();
+    this.instantiateNode();
   }
 
   componentWillReceiveProps(nextProps) {

@@ -50,7 +50,7 @@ export default class BuffersAndChannels extends React.Component {
     return (
       <RAudioContext debug={true} onInit={ctx => this.audioContext = ctx}>
         <RPipeline>
-          <RBufferSource buffer={this.state.buffer} loop/>
+          <RBufferSource buffer={this.state.buffer} loop start={0}/>
           <RSplitChannels channelCount={2}>
             <RPipeline>
               <RWaveShaper curve={this.makeDistortionCurve(200)} />
@@ -59,7 +59,7 @@ export default class BuffersAndChannels extends React.Component {
               <RGain gain={.5} />
             </RPipeline>
             <RPipeline>
-              <ROscillator frequency={1} type="sine" detune={0} connectToParam="gain" />
+              <ROscillator frequency={1} type="sine" detune={0} connectToParam="gain" start={0}/>
               <RGain gain={1} />
             </RPipeline>
           </RSplitChannels>
