@@ -35,7 +35,7 @@ export default class MediaStreamSourceExample extends React.Component {
           <RCycle>
             <RPipeline>
               <RDelay delayTime={.3} />
-              <RGain gain={0} />
+              <RGain gain={.2} />
             </RPipeline>
           </RCycle>
           <RPanner positionY={0} positionX={0} panningModel="HRTF"/>
