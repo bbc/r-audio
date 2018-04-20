@@ -29,13 +29,14 @@ export default class Mutation extends React.Component {
 
     this.state = {
       nodes: this.nodeCache,
-      toggle: true
+      toggle: true,
+      freq: 440
     };
 
     this.change = () => {
       const changed = this.nodeCache.slice();
-      changed.splice(1, 1, <RGain key={3} gain={.8} transitionDuration={1} />);
-      this.setState({ nodes: changed });
+      changed.splice(0, 1, <ROscillator key={1} frequency={220} type="triangle" detune={0} />);
+      this.setState({ freq: 220 });
     }
   }
 
@@ -46,7 +47,9 @@ export default class Mutation extends React.Component {
           <button onClick={this.change}>Mutate audio graph</button>
           <ROscillator key={1} frequency={440} type="triangle" detune={0} />
           <RSplit>
-            { this.state.nodes }
+            <ROscillator key={3} frequency={this.state.freq} type="triangle" detune={0} />
+            <RBiquadFilter key={2} frequency={1000} gain={1} Q={1} type="lowpass" detune={0} transitionDuration={.8} />
+            <RStereoPanner key={4} />
           </RSplit>
           <RPipeline>
             <RGain gain={.5} transitionDuration={1} />

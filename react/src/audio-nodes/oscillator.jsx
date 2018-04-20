@@ -8,7 +8,8 @@ export default class ROscillator extends RAudioNode {
     this.params = {
       frequency: props.frequency,
       detune: props.detune,
-      type: props.type
+      type: props.type,
+      periodicWave: props.periodicWave
     };
   }
 
@@ -17,6 +18,12 @@ export default class ROscillator extends RAudioNode {
 
     if (!this.node || !(this.node instanceof OscillatorNode)) {
       this.node = this.context.audio.createOscillator();
+      this.node.addEventListener('ended', this.onEnded);
+
+      if (this.props.periodicWave) {
+        this.node.setPeriodicWave(this.props.periodicWave);
+      }
+
       this.context.nodes.set(this.props.identifier, this.node);
     }
 
@@ -27,5 +34,13 @@ export default class ROscillator extends RAudioNode {
   componentDidMount() {
     super.componentDidMount();
     this.node.start();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    super.componentWillReceiveProps(nextProps);
+
+    if (this.props.periodicWave !== nextProps.periodicWave) {
+      this.node.setPeriodicWave(nextProps.periodicWave);
+    }
   }
 }

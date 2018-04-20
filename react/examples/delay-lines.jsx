@@ -18,31 +18,53 @@ import {
   RDelay
 } from '../src/audio-nodes/index.jsx';
 
-const delays = (
-  <RAudioContext debug={true}>
-    <RPipeline>
-      <ROscillator frequency={220} type="triangle" detune={0} />
-      <ROscillator frequency={1} type="square" detune={0} connectToParam="gain" />
-      <RGain gain={1} />
-      <RSplit>
-        <RGain gain={.5} />
-        <RCycle>
-          <RPipeline>
-            <RDelay delayTime={.1} />
-            <RGain gain={.4} />
-            <RStereoPanner pan={-1}/>
-          </RPipeline>
-        </RCycle>
-        <RCycle>
-          <RPipeline>
-            <RDelay delayTime={.3} />
-            <RGain gain={.4} />
-            <RStereoPanner pan={1}/>
-          </RPipeline>
-        </RCycle>
-      </RSplit>
-    </RPipeline>
-  </RAudioContext>
-);
+export default class DelayLineExample extends React.Component {
+  constructor(props) {
+    super(props);
 
-export default delays;
+    this.state = { periodicWave: null };
+    // a simple waveform can be created with a series of periodically repeating numbers
+    const realComponents = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1];
+    // imaginary components can all be 0 for demo purposes
+    const imagComponents = realComponents.map(() => 0);
+
+    this.onContextInit = ctx => {
+      this.setState({
+        periodicWave: ctx.createPeriodicWave(
+          Float32Array.from(realComponents),
+          Float32Array.from(imagComponents),
+          { disableNormalization: true }
+        )
+      });
+    };
+  }
+
+  render() {
+    return (
+      <RAudioContext debug={true} onInit={this.onContextInit}>
+        <RPipeline>
+          <ROscillator frequency={220} type="triangle" detune={0} periodicWave={this.state.periodicWave} />
+          <ROscillator frequency={1} type="square" detune={0} connectToParam="gain" />
+          <RGain gain={1} />
+          <RSplit>
+            <RGain gain={.5} />
+            <RCycle>
+              <RPipeline>
+                <RDelay delayTime={.1} />
+                <RGain gain={.4} />
+                <RStereoPanner pan={-1}/>
+              </RPipeline>
+            </RCycle>
+            <RCycle>
+              <RPipeline>
+                <RDelay delayTime={.3} />
+                <RGain gain={.4} />
+                <RStereoPanner pan={1}/>
+              </RPipeline>
+            </RCycle>
+          </RSplit>
+        </RPipeline>
+      </RAudioContext>
+    );
+  }
+};
