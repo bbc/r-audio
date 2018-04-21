@@ -121,28 +121,48 @@ export default class RAudioNode extends RComponent {
     }
   }
 
+  resolveTransitionProps(props, propName) {
+    const transitionTime = typeof props.transitionTime === 'number'
+      ? props.transitionTime
+      : props.transitionTime ? props.transitionTime[propName] : null;
+
+    const transitionCurve = typeof props.transitionCurve === 'string'
+      ? props.transitionCurve
+      : props.transitionCurve ? props.transitionCurve[propName] : null;
+
+    return [ transitionTime, transitionCurve ];
+  }
+
   updateParams(props) {
     if (!this.params) return;
 
     for (let p in this.params) {
       if (!(p in props)) continue;
 
+      const [ transitionTime, transitionCurve ] = this.resolveTransitionProps(props, p);
+
       if (this.node[p] instanceof AudioParam) {
-        this.setParam(this.node[p], props[p], props.transitionDuration);
+        this.setParam(this.node[p], props[p], transitionTime, transitionCurve);
       } else if (this.node.parameters && this.node.parameters.has(p)) {
         let param = this.node.parameters.get(p);
-        this.setParam(param, props[p], props.transitionDuration);
+        this.setParam(param, props[p], transitionTime, transitionCurve);
       } else {
         if (this.node[p] !== props[p]) this.node[p] = props[p];
       }
     }
   }
 
-  setParam(param, value, transitionDuration) {
-    if (transitionDuration) {
-      param.linearRampToValueAtTime(value, this.context.audio.currentTime + this.props.transitionDuration);
+  setParam(param, value, transitionTime, transitionCurve) {
+    if (transitionCurve) {
+      const fn = `${transitionCurve}RampToValueAtTime`;
+      // `exponentialRamp` doesn't seem to work on Firefox, so fall back to linear
+      try {
+        param[fn](value, transitionTime);
+      } catch(e) {
+        param['linearRampToValueAtTime'](value, transitionTime);
+      }
     } else {
-      param.setValueAtTime(value, this.context.audio.currentTime);
+      param.setValueAtTime(value, transitionTime || this.context.audio.currentTime);
     }
   }
 
@@ -167,6 +187,7 @@ export default class RAudioNode extends RComponent {
                 if (!this.props[p] && this.props[p] !== 0) return null;
 
                 let param = this.props[p];
+                if (typeof this.props[p] === 'boolean') param = this.props[p].toString();
 
                 if (!(['number', 'string', 'boolean'].includes(typeof this.props[p]))) {
                   param = param.constructor.name;
