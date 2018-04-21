@@ -1,5 +1,6 @@
 import React from 'react';
 import RConnectableNode from './../base/connectable-node.jsx';
+import PropTypes from 'prop-types';
 
 export default class RBiquadFilter extends RConnectableNode {
   constructor(props) {
@@ -25,4 +26,22 @@ export default class RBiquadFilter extends RConnectableNode {
     this.updateParams = this.updateParams.bind(this);
     this.updateParams(this.props);
   }
+
+  render() {
+    if (typeof this.props.children === 'function') {
+      const filterProxy = Object.freeze({
+        getFrequencyResponse: array => {
+          return this.node.getFloatFrequencyData(array);
+        }
+      });
+
+      this.props.children(filterProxy);
+    }
+
+    return super.render();
+  }
 }
+
+RBiquadFilter.propTypes = {
+  children: PropTypes.func
+};
