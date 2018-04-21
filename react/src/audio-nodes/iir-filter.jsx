@@ -2,24 +2,22 @@ import React from 'react';
 import RConnectableNode from './../base/connectable-node.jsx';
 import PropTypes from 'prop-types';
 
-export default class RBiquadFilter extends RConnectableNode {
+export default class RIIRFilter extends RConnectableNode {
   constructor(props) {
     super(props);
 
-    this.params = {
-      frequency: props.frequency,
-      detune: props.detune,
-      Q: props.Q,
-      gain: props.gain,
-      type: props.type
-    };
+    this.params = {};
   }
 
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof BiquadFilterNode)) {
-      this.node = this.context.audio.createBiquadFilter();
+    if (!this.node || !(this.node instanceof IIRFilterNode)) {
+      this.node = this.context.audio.createIIRFilter({
+        feedback: this.props.feedback,
+        feedforward: this.props.feedforward
+      });
+
       this.context.nodes.set(this.props.identifier, this.node);
     }
 

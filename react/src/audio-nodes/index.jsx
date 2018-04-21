@@ -9,6 +9,7 @@ import RConvolver from './convolver.jsx';
 import RDelay from './delay.jsx';
 import RDynamicsCompressor from './dynamics-compressor.jsx';
 import RGain from './gain.jsx';
+import RIIRFilter from './iir-filter.jsx';
 import RMediaElementSource from './media-element-source.jsx';
 import RMediaStreamSource from './media-stream-source.jsx';
 import ROscillator from './oscillator.jsx';
@@ -28,6 +29,7 @@ export {
   RDelay,
   RDynamicsCompressor,
   RGain,
+  RIIRFilter,
   RMediaElementSource,
   RMediaStreamSource,
   ROscillator,
