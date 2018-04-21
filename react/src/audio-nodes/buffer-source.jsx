@@ -19,7 +19,7 @@ export default class RBufferSource extends RScheduledSource {
   }
 
   instantiateNode() {
-    if (!this.node || !(this.node instanceof BufferSourceNode)) {
+    if (!this.node || !(this.node instanceof AudioBufferSourceNode)) {
       this.node = this.context.audio.createBufferSource();
       this.node.addEventListener('ended', this.onEnded);
 
