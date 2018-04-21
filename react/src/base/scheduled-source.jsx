@@ -31,9 +31,16 @@ export default class RScheduledSource extends RAudioNode {
       }
     }
 
-    if (typeof this.props.stop === 'number' && this.node.stop) {
+    if (typeof this.props.stop === 'number') {
       this.node.stop(this.props.stop);
     }
+  }
+  /**
+  Overriding this method enables sources to specify special conditions when playback should be rescheduled.
+  e.g. BufferSource should be rescheduled if a new buffer is provided
+  **/
+  shouldStartWithPropsChange() {
+    return false;
   }
 
   componentDidMount() {
@@ -43,6 +50,11 @@ export default class RScheduledSource extends RAudioNode {
 
   componentDidUpdate(prevProps, prevState) {
     super.componentDidUpdate(prevProps, prevState);
-    this.schedule();
+
+    if (prevProps.start !== this.props.start
+        || prevProps.stop !== this.props.stop
+        || this.shouldStartWithPropsChange(prevProps, this.props)) {
+      this.schedule();
+    }
   }
 }

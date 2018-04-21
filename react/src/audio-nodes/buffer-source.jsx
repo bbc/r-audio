@@ -48,6 +48,10 @@ export default class RBufferSource extends RScheduledSource {
     super.componentDidMount();
   }
 
+  shouldStartWithPropsChange(prevProps, currentProps) {
+    return prevProps.buffer !== currentProps.buffer;
+  }
+
   componentDidUpdate(prevProps, prevState) {
     this.readyToPlay = !!this.props.buffer;
     super.componentDidUpdate(prevProps, prevState);
