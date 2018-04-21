@@ -23,21 +23,23 @@ const pipeline = (detune, gain, filterFreq, pan) => (
     </article>
     <RPipeline>
       <ROscillator start={0} frequency={440} type="triangle" detune={0}/>
-      <ROscillator start={0} frequency={220} type="triangle" detune={detune} transitionDuration={.5}/>
-      <RGain gain={gain} transitionDuration={1} name='gainToSplit'/>
+      <ROscillator start={0} frequency={220} type="triangle" detune={detune} transitionTime={.5}/>
+      <RGain gain={gain} transitionTime={1} name='gainToSplit'/>
       <RSplit>
-        <ROscillator start={0} frequency={330} type="triangle" detune={detune + 3} transitionDuration={.5} />
-        <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={0} transitionDuration={.8}/>
+        <ROscillator start={0} frequency={330} type="triangle" detune={detune + 3} transitionTime={.5} />
+        <RBiquadFilter frequency={1000} gain={gain} Q={1} type="lowpass" detune={detune}
+          transitionTime={{ gain: 5, detune: 10 }}
+          transitionCurve={{ gain: 'exponential', detune: 'linear'}} />
         <RPipeline>
-          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionDuration={.8}/>
-          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionDuration={.8}/>
-          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionDuration={.8}/>
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionTime={.8}/>
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionTime={.8}/>
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={5} transitionTime={.8}/>
           <ROscillator start={0} frequency={1} type="sine" detune={0} connectToParam='pan' />
           <RStereoPanner />
-          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={3} transitionDuration={.8} />
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={3} transitionTime={.8} />
         </RPipeline>
         <RPipeline>
-          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={3} transitionDuration={.8} disconnected />
+          <RBiquadFilter frequency={1000} gain={1} Q={1} type="lowpass" detune={3} transitionTime={.8} disconnected />
         </RPipeline>
       </RSplit>
       <RPipeline>
@@ -45,8 +47,8 @@ const pipeline = (detune, gain, filterFreq, pan) => (
         <ROscillator start={0} frequency={1} type="sine" detune={0} connectToParam='pan' />
         <RStereoPanner />
       </RPipeline>
-      <RGain gain={.8} transitionDuration={1}/>
-      <RBiquadFilter frequency={filterFreq} gain={1.5} Q={10.1} type="lowpass" detune={0} transitionDuration={.8}/>
+      <RGain gain={.8} transitionTime={1}/>
+      <RBiquadFilter frequency={filterFreq} gain={1.5} Q={10.1} type="lowpass" detune={0} transitionTime={.8}/>
     </RPipeline>
   </RAudioContext>
 );
