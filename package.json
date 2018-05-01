@@ -1,8 +1,8 @@
 {
-  "name": "reaudio",
+  "name": "r-audio",
   "version": "1.0.0",
-  "description": "web audio as a function of state",
-  "main": "index.js",
+  "description": "Flexible Web Audio graphs in React",
+  "main": "index.jsx",
   "scripts": {
     "dev": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
