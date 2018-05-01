@@ -1,12 +1,12 @@
 # r-audio
-`~ declarative audio components ~ sound as a function of state ~`
+A library of React components for building Web Audio graphs.
 
 ## Features
 - makes Web Audio graph code more readable and representative of the graph shape
 - makes it easy to create reusable graphs as React components
 - makes state management easier with React's one-way data bindings and single source of state
 - able to represent any arbitrary directed graph
-- supports all non-deprecated audio nodes including `AudioWorklet` (except `IIRFilterNode` as of 17 April 2018)
+- supports all non-deprecated audio nodes including `AudioWorklet`
 - allows interspersed HTML components in the graph
 
 Any directed graph can be created by composing the following components:
@@ -16,7 +16,7 @@ Any directed graph can be created by composing the following components:
 + `RCycle` connects child nodes to themselves
 + `RSplitChannels` is like RSplit, but connects a different channel to each child and merges them at the end
 
-## Setup
+## Development setup
 
 ```bash
 cd react
@@ -24,7 +24,7 @@ npm install
 npm run dev
 ```
 
-The demo page will be served at `localhost:8081`. Use a recent version of Chrome or Firefox for the best experience.
+The demo page will be served at `localhost:8080`. Use a recent version of Chrome or Firefox for the best experience.
 
 Firefox Web Audio developer tool is especially handy (bear in mind Firefox does not support AudioWorklet as of 17 April 2018).
 
