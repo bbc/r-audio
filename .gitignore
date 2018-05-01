@@ -2,3 +2,4 @@
 *.tex
 evaluation
 native_test*
+node_modules
