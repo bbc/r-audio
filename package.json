@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jakubfiala/reaudio.git"
+    "url": "git+https://github.com/bbc/r-audio.git"
   },
   "keywords": [
     "web-audio",
@@ -18,21 +18,21 @@
   "author": "jakubfiala",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jakubfiala/reaudio/issues"
+    "url": "https://github.com/bbc/r-audio/issues"
   },
-  "homepage": "https://github.com/jakubfiala/reaudio#readme",
+  "homepage": "https://github.com/bbc/r-audio#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-cli": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-preset-env": "^1.3.2",
     "babel-preset-react": "^6.23.0",
-    "react": "^16.0.0-rc.3",
-    "react-dom": "^16.0.0-rc.3",
     "webpack": "^2.3.2",
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "babel-core": "^6.26.0",
+    "react": "^16.0.0-rc.3",
+    "react-dom": "^16.0.0-rc.3",
     "prop-types": "^15.6.0"
   }
 }
