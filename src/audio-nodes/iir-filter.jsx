@@ -40,6 +40,6 @@ export default class RIIRFilter extends RConnectableNode {
   }
 }
 
-RBiquadFilter.propTypes = {
+RIIRFilter.propTypes = {
   children: PropTypes.func
 };
