@@ -17,6 +17,7 @@ export default class RAudioNode extends RComponent {
     this.setParam = this.setParam.bind(this);
   }
 
+  // recursively builds up a list of nodes pointed to by IDs or lists of IDs
   flattenPointers(destinations, flattened = []) {
     for (let element of destinations) {
       if (Array.isArray(element)) {
@@ -93,7 +94,8 @@ export default class RAudioNode extends RComponent {
     }
   }
 
-  // we use DidUpdate to connect to new destinations, because WillUpdate might get called before the new destinations are ready
+  // we use DidUpdate to connect to new destinations,
+  // because WillUpdate might get called before the new destinations are ready
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.destination !== this.props.destination) {
       this.connectToAllDestinations(this.props.destination, this.node);
@@ -117,6 +119,8 @@ export default class RAudioNode extends RComponent {
     return [ transitionTime, transitionCurve ];
   }
 
+  // updates only Web Audio-related parameters
+  // (both AudioParams and regular properties)
   updateParams(props) {
     if (!this.params) return;
 

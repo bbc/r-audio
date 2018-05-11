@@ -5,9 +5,7 @@ export default class RMediaElementSource extends RAudioNode {
   constructor(props) {
     super(props);
 
-    this.params = {
-      buffer: props.buffer || null
-    };
+    this.params = {};
 
     this.createNode = this.createNode.bind(this);
   }

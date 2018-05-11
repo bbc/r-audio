@@ -24,14 +24,21 @@ export default class RScheduledSource extends RAudioNode {
   }
 
   schedule() {
-    if (typeof this.props.start === 'number' && this.readyToPlay && !this.playbackScheduled) {
-      if (typeof this.props.stop !== 'number' || this.props.start < this.props.stop) {
-        this.node.start(this.props.start || 0, this.props.offset || 0, this.props.duration);
-        this.playbackScheduled = true;
-      }
+    const shouldScheduleStart =
+      typeof this.props.start === 'number'
+      && this.readyToPlay
+      && !this.playbackScheduled
+      && (typeof this.props.stop !== 'number' || this.props.start < this.props.stop);
+
+    const shouldScheduleStop =
+      typeof this.props.stop === 'number';
+
+    if (shouldScheduleStart) {
+      this.node.start(this.props.start || 0, this.props.offset || 0, this.props.duration);
+      this.playbackScheduled = true;
     }
 
-    if (typeof this.props.stop === 'number') {
+    if (shouldScheduleStop) {
       this.node.stop(this.props.stop);
     }
   }

@@ -37,7 +37,7 @@ export default class DelayLineExample extends React.Component {
       });
 
       // schedule restart of the oscillator after 6 seconds
-      setTimeout(() => this.setState({ start: ctx.currentTime, stop: ctx.currentTime + 3 }), 6000);
+      setInterval(() => this.setState({ start: ctx.currentTime, stop: ctx.currentTime + 3 }), 6000);
     };
   }
 
