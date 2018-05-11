@@ -103,22 +103,6 @@ export default class RAudioNode extends RComponent {
   componentWillUnmount() {
     this.node.disconnect();
     this.context.nodes.delete(this.props.identifier);
-
-    if (this.props.parent) {
-      const parents = this.props.parent();
-
-      this.flattenPointers(parents).forEach((parentIdentifier, parentIndex) => {
-        const parent = this.context.nodes.get(parentIdentifier);
-        if (!parent) return;
-
-        try {
-          console.log(parent);
-          parent.disconnect(this.node);
-        } catch(e) {
-          console.warn(e);
-        }
-      })
-    }
   }
 
   resolveTransitionProps(props, propName) {
