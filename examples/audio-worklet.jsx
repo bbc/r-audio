@@ -25,7 +25,7 @@ export default class AudioWorkletExample extends React.Component {
       .catch(err => console.log('The following gUM error occured: ' + err));
 
     const workletPromise = ctx.audioWorklet
-      .addModule('./assets/js/bit-crusher.js')
+      .addModule('/assets/js/bit-crusher.js')
 
     Promise.all([ streamPromise, workletPromise ])
       .then(() => this.setState({ ready: true }));
