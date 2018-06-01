@@ -16,7 +16,11 @@ export default class RSplitChannels extends RComponent {
       .toArray(this.props.children)
       .slice(0, this.props.channelCount)
       .map((element, ci) => {
-        return React.cloneElement(element, { connectFromChannel: 0, connectToChannel: ci });
+        const channelProps = {
+          connectFromChannel: 0,
+          connectToChannel: element.props.connectToChannel || ci
+        };
+        return React.cloneElement(element, channelProps);
       });
 
     return (

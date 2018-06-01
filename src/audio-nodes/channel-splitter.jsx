@@ -5,14 +5,19 @@ export default class RChannelSplitter extends RConnectableNode {
   constructor(props) {
     super(props);
 
-    this.params = {};
+    this.params = { channelCount: 1 };
   }
 
   // override of RAudioNode.getConnectionArguments
+  // because we need to have some default many-to-many behaviour
   getConnectionArguments(destination, destinationIndex, toParam) {
     const connectTarget = toParam ? destination[toParam] : destination;
-    const fromChannel = destinationIndex;
-    const toChannel = 0;
+    // we use modulo for channel distribution
+    // in case we're connecting to more nodes than we have channels
+    const fromChannel = destinationIndex % this.props.channelCount;
+    // normally we expect to connect to the first channel of each destination
+    // but this can be overriden
+    const toChannel = !isNaN(this.props.connectToChannel) ? this.props.connectToChannel : 0;
 
     return [ connectTarget ].concat(toParam ? [] : [ fromChannel, toChannel ]);
   }

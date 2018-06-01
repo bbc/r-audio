@@ -5,7 +5,7 @@ export default class RChannelMerger extends RConnectableNode {
   constructor(props) {
     super(props);
 
-    this.params = {};
+    this.params = { channelCount: 1 };
   }
 
   componentWillMount() {
