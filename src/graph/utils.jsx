@@ -10,8 +10,8 @@ const isConnectable = component => {
       || [ RSplit, RCycle, RSplitChannels, RPipeline ].includes(component.type);
 };
 
-// this rather strange function is used when we want to get a property value
-// from either the child or the parent
+// this rather strange function is used when we want to get a numeric value
+// from either a child or its parent's props
 // but the child takes precedence (for overriding)
 const propertyFromChildOrParent = (child, parent) => property => {
   return !isNaN(child.props[property])
