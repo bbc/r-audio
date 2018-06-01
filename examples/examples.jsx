@@ -7,6 +7,7 @@ import BuffersAndChannels from './buffers-channels.jsx';
 import MediaElementSourceExample from './media-element.jsx';
 import MediaStreamSourceExample from './media-stream.jsx';
 import Mutation from './mutation.jsx';
+import GainMatrix from './gain-matrix.jsx';
 
 const examples = {
   'audio-worklet': <AudioWorkletExample/>,
@@ -15,7 +16,8 @@ const examples = {
   'buffers-channels': <BuffersAndChannels/>,
   'media-element': <MediaElementSourceExample/>,
   'media-stream': <MediaStreamSourceExample/>,
-  'mutation': <Mutation/>
+  'mutation': <Mutation/>,
+  'gain-matrix': <GainMatrix/>,
 }
 
 export default examples;
