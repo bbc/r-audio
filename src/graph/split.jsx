@@ -2,7 +2,10 @@ import React from 'react';
 import RAudioNode from './../base/audio-node.jsx';
 import RComponent from './../base/component.jsx';
 
-import { isConnectable } from './utils.jsx';
+import {
+  isConnectable,
+  propertyFromChildOrParent
+} from './utils.jsx';
 
 /**
  * A RComponent which connects its children in parallel, creating inbound branches if necessary.
@@ -35,17 +38,29 @@ export default class RSplit extends RComponent {
       .toArray(this.props.children)
       .map(c => ({ component: c,  identifier: Symbol(c.type.name + Date.now()) }))
       .map((childTuple, childIndex, childrenArray) => {
+        if (!RComponent.isPrototypeOf(childTuple.component.type)) return childTuple.component;
+
         const type = childTuple.component.type;
         if (RComponent.isPrototypeOf(type) && isConnectable(childTuple.component)) {
           this.inputs.push(childTuple.identifier);
         }
 
-        const pipelineProps = {
+        // this rather strange and terse piece of code
+        // figures out the channel connections of the RSplit child
+        // where children can override the parent (RSplit) settings
+        // this is useful for RSplitChannels
+        const [ connectFromChannel, connectToChannel ] =
+          [ 'connectFromChannel', 'connectToChannel' ]
+            .map(propertyFromChildOrParent(childTuple.component, this));
+
+        const splitProps = {
           destination: this.props.destination,
-          identifier: childTuple.identifier
+          identifier: childTuple.identifier,
+          connectFromChannel,
+          connectToChannel,
         };
 
-        return React.cloneElement(childTuple.component, pipelineProps);
+        return React.cloneElement(childTuple.component, splitProps);
       });
 
     if (!this.inputs.length) {
