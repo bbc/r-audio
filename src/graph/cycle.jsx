@@ -29,7 +29,7 @@ export default class RCycle extends RComponent {
   }
 
   render() {
-    while (this.inputs.length) this.inputs.pop();
+    while (this.inputs.length > 0) this.inputs.pop();
 
     const children = React.Children
       .toArray(this.props.children)
@@ -55,7 +55,7 @@ export default class RCycle extends RComponent {
         return React.cloneElement(childTuple.component, pipelineProps);
       });
 
-    if (!this.inputs.length) {
+    if (this.inputs.length === 0) {
       const destination = this.props.destination();
       if (destination instanceof Array) this.inputs.push(...destination);
       else this.inputs.push(destination);
