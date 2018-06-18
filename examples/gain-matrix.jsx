@@ -43,7 +43,8 @@ export default class GainMatrix extends React.Component {
         <article>
           <h1>Gain Matrix</h1>
           <p>
-            This example (courtesy of Tom Nixon from BBC R&D) shows how we can create complex multichannel graphs
+            This example (courtesy of <a href="http://github.com/tomjnixon">Tom Nixon</a>
+            from BBC R&amp;D) shows how we can create complex multichannel graphs
             using <code>RSplitChannels</code> and explicit <code>connectToChannel</code> props.
           </p>
           <p>

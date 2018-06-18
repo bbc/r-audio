@@ -50,7 +50,7 @@ export default class DelayLineExample extends React.Component {
             This example demonstrates how one can create feedback delay lines using the <code>RCycle</code> component.
             It also shows how scheduling works.
           </p>
-          <p>Make sure to always include a <code>RGain</code> with `gain` &lt; 1 to avoid infinite feedback.</p>
+          <p>Make sure to always include a <code>RGain</code> with <code>gain</code> &lt; 1 to avoid infinite feedback.</p>
         </article>
         <RPipeline>
           <ROscillator
