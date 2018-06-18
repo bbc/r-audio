@@ -13,7 +13,7 @@ module.exports = {
       {
         test: /\.js$|\.jsx$/,
         exclude: /node_modules/,
-        loaders: ['babel-loader?presets[]=react,env']
+        loaders: ['babel-loader?presets[]=react,env', 'eslint-loader?fix=true&emitWarning=true']
       }
     ]
   },

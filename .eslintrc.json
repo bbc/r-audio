@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "standard",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "react/prop-types": "off",
+    "react/no-deprecated": "off",
+    "no-unused-vars": "off",
+    "space-before-function-paren": "off",
+    "no-return-assign": "off",
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
+}
