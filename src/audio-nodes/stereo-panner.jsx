@@ -15,7 +15,7 @@ export default class RStereoPanner extends RConnectableNode {
 
     const props = this.props;
 
-    if (!this.node || !(this.node instanceof StereoPannerNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createStereoPanner();
       this.context.nodes.set(this.props.identifier, this.node);
     }

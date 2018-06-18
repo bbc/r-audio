@@ -18,7 +18,7 @@ export default class RMediaElementSource extends RAudioNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof MediaElementAudioSourceNode)) {
+    if (!this.node) {
       this.createNode();
     }
 

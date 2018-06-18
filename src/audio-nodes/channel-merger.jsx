@@ -11,7 +11,7 @@ export default class RChannelMerger extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof ChannelMergerNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createChannelMerger(this.props.channelCount);
       this.context.nodes.set(this.props.identifier, this.node);
     }

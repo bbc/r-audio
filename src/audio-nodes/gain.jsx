@@ -13,7 +13,7 @@ export default class RGain extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof GainNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createGain();
       this.context.nodes.set(this.props.identifier, this.node);
     }

@@ -14,7 +14,7 @@ export default class RWaveShaper extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof WaveShaperNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createWaveShaper();
       this.context.nodes.set(this.props.identifier, this.node);
     }

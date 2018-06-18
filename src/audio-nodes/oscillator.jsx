@@ -23,7 +23,7 @@ export default class ROscillator extends RScheduledSource {
   }
 
   instantiateNode() {
-    if (!this.node || !(this.node instanceof OscillatorNode) || this.playbackScheduled === false) {
+    if (!this.node || this.playbackScheduled === false) {
       this.node = this.context.audio.createOscillator();
       this.node.addEventListener('ended', this.onEnded);
 

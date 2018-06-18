@@ -17,7 +17,7 @@ export default class RDynamicsCompressor extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof DynamicsCompressorNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createDynamicsCompressor();
       this.context.nodes.set(this.props.identifier, this.node);
     }

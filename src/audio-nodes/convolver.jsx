@@ -14,7 +14,7 @@ export default class RConvolver extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof ConvolverNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createConvolver();
       this.context.nodes.set(this.props.identifier, this.node);
     }

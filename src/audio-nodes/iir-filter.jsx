@@ -12,7 +12,7 @@ export default class RIIRFilter extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof IIRFilterNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createIIRFilter({
         feedback: this.props.feedback,
         feedforward: this.props.feedforward

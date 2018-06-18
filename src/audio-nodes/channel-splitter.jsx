@@ -25,7 +25,7 @@ export default class RChannelSplitter extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof ChannelSplitterNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createChannelSplitter(this.props.channelCount);
       this.context.nodes.set(this.props.identifier, this.node);
     }

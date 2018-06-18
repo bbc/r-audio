@@ -20,7 +20,7 @@ export default class RConstantSource extends RScheduledSource {
   }
 
   instantiateNode() {
-    if (!this.node || !(this.node instanceof ConstantSourceNode) || this.playbackScheduled === false) {
+    if (!this.node || this.playbackScheduled === false) {
       this.node = this.context.audio.createConstantSource();
       this.node.addEventListener('ended', this.onEnded);
 

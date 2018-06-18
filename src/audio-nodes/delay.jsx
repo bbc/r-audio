@@ -13,7 +13,7 @@ export default class RDelay extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof DelayNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createDelay();
       this.context.nodes.set(this.props.identifier, this.node);
     }

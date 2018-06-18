@@ -17,7 +17,7 @@ export default class RAnalyser extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof AnalyserNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createAnalyser();
       this.context.nodes.set(this.props.identifier, this.node);
     }

@@ -18,7 +18,7 @@ export default class RBiquadFilter extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof BiquadFilterNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createBiquadFilter();
       this.context.nodes.set(this.props.identifier, this.node);
     }

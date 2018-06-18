@@ -26,7 +26,7 @@ export default class RPanner extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof PannerNode)) {
+    if (!this.node) {
       this.node = this.context.audio.createPanner();
       this.context.nodes.set(this.props.identifier, this.node);
     }

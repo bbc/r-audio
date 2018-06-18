@@ -12,7 +12,7 @@ export default class RAudioWorklet extends RConnectableNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof AudioWorkletNode)) {
+    if (!this.node) {
       this.node = new AudioWorkletNode(this.context.audio, this.props.worklet);
       this.context.nodes.set(this.props.identifier, this.node);
     }
