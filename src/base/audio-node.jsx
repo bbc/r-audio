@@ -134,8 +134,15 @@ export default class RAudioNode extends RComponent {
       } else if (this.node.parameters && this.node.parameters.has(p)) {
         let param = this.node.parameters.get(p);
         this.setParam(param, props[p], transitionTime, transitionCurve);
-      } else {
-        if (this.node[p] !== props[p]) this.node[p] = props[p];
+      } else if (p in this.node) {
+        // some browsers (e.g. Chrome) will try to set channelCount and throw an error
+        // since we can't use Object.getOwnPropertyDescriptor on the AudioNodes
+        // we simply wrap the action in a try-catch
+        try {
+          if (this.node[p] !== props[p]) this.node[p] = props[p];
+        } catch(e) {
+          console.warn(`Tried setting ${p} on node`, this.node); // eslint-disable-line no-console
+        }
       }
     }
   }
