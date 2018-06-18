@@ -61,18 +61,18 @@ export default class DelayLineExample extends React.Component {
           <ROscillator frequency={1} type="square" detune={0} connectToParam="gain" start={0}/>
           <RGain gain={1} />
           <RSplit>
-            <RGain gain={.5} />
+            <RGain gain={0.5} />
             <RCycle>
               <RPipeline>
-                <RDelay delayTime={.1} />
-                <RGain gain={.4} />
+                <RDelay delayTime={0.1} />
+                <RGain gain={0.4} />
                 <RStereoPanner pan={-1}/>
               </RPipeline>
             </RCycle>
             <RCycle>
               <RPipeline>
-                <RDelay delayTime={.3} />
-                <RGain gain={.4} />
+                <RDelay delayTime={0.3} />
+                <RGain gain={0.4} />
                 <RStereoPanner pan={1}/>
               </RPipeline>
             </RCycle>
@@ -81,4 +81,4 @@ export default class DelayLineExample extends React.Component {
       </RAudioContext>
     );
   }
-};
+}

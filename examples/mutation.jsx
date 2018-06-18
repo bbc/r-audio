@@ -9,7 +9,7 @@ import {
   ROscillator,
   RGain,
   RBiquadFilter,
-  RStereoPanner,
+  RStereoPanner
 } from '../src/audio-nodes/index.jsx';
 
 export default class Mutation extends React.Component {
@@ -17,7 +17,7 @@ export default class Mutation extends React.Component {
     super();
     this.nodeCache = [
       <ROscillator start={1} key={1} frequency={440} type="triangle" detune={0} />,
-      <RBiquadFilter key={2} frequency={600} type="lowpass" detune={0} transitionDuration={.8} />,
+      <RBiquadFilter key={2} frequency={600} type="lowpass" detune={0} transitionDuration={0.8} />,
       <RStereoPanner key={3} />
     ];
 
@@ -29,9 +29,9 @@ export default class Mutation extends React.Component {
 
     this.change = () => {
       const changed = this.nodeCache.slice();
-      changed.splice(1, 1, <RGain key={2} gain={.5} />);
+      changed.splice(1, 1, <RGain key={2} gain={0.5} />);
       this.setState({ nodes: changed });
-    }
+    };
   }
 
   render() {
@@ -45,10 +45,10 @@ export default class Mutation extends React.Component {
         <RPipeline>
           <button onClick={this.change}>Mutate audio graph</button>
           <ROscillator start={0} frequency={440} type="triangle" detune={0} />
-            {this.state.nodes}
-          <RGain gain={.5} transitionDuration={1} />
+          {this.state.nodes}
+          <RGain gain={0.5} transitionDuration={1} />
         </RPipeline>
       </RAudioContext>
-    )
+    );
   }
-};
+}

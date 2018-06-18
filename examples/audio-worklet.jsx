@@ -21,11 +21,10 @@ export default class AudioWorkletExample extends React.Component {
 
   loadWorkletAndStream(ctx) {
     const streamPromise = navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-      .then(stream => this.setState({ stream }))
-      .catch(err => console.log('The following gUM error occured: ' + err));
+      .then(stream => this.setState({ stream }));
 
     const workletPromise = ctx.audioWorklet
-      .addModule('/assets/js/bit-crusher.js')
+      .addModule('/assets/js/bit-crusher.js');
 
     Promise.all([ streamPromise, workletPromise ])
       .then(() => this.setState({ ready: true }));
@@ -44,24 +43,24 @@ export default class AudioWorkletExample extends React.Component {
             <RPipeline>
               <RMediaStreamSource stream={this.state.stream} />
               <RAnalyser fftSize={2048}>
-              {
-                proxy => {
-                  const data = new Float32Array(proxy.frequencyBinCount);
-                  // when this function first runs, there will be no data yet
-                  // so wait a bit
-                  // in reality one might want to save the `proxy` object and call it independently
-                  // for instance, inside a `requestAnimationFrame` call
-                  setTimeout(() => {
-                    proxy.getFloatFrequencyData(data);
-                    console.log(data);
-                  }, 3000);
+                {
+                  proxy => {
+                    const data = new Float32Array(proxy.frequencyBinCount);
+                    // when this function first runs, there will be no data yet
+                    // so wait a bit
+                    // in reality one might want to save the `proxy` object and call it independently
+                    // for instance, inside a `requestAnimationFrame` call
+                    setTimeout(() => {
+                      proxy.getFloatFrequencyData(data);
+                      console.log(data); // eslint-disable-line no-console
+                    }, 3000);
+                  }
                 }
-              }
               </RAnalyser>
-              <RDelay delayTime={.3} bitDepth={4} />
+              <RDelay delayTime={0.3} bitDepth={4} />
               <RSplitChannels channelCount={2}>
-                <RAudioWorklet worklet="bit-crusher" bitDepth={4} frequencyReduction={.5}/>
-                <RAudioWorklet worklet="bit-crusher" bitDepth={4} frequencyReduction={.5}/>
+                <RAudioWorklet worklet="bit-crusher" bitDepth={4} frequencyReduction={0.5}/>
+                <RAudioWorklet worklet="bit-crusher" bitDepth={4} frequencyReduction={0.5}/>
               </RSplitChannels>
               <RGain gain={0.4} />
             </RPipeline>
@@ -70,4 +69,4 @@ export default class AudioWorkletExample extends React.Component {
       </RAudioContext>
     );
   }
-};
+}

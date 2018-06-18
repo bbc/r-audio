@@ -11,7 +11,7 @@ export default class RAnalyser extends RConnectableNode {
       minDecibels: this.props.minDecibels,
       maxDecibels: this.props.maxDecibels,
       smoothingTimeConstant: this.props.smoothingTimeConstant
-    }
+    };
   }
 
   componentWillMount() {
@@ -47,7 +47,7 @@ export default class RAnalyser extends RConnectableNode {
 
     return super.render();
   }
-};
+}
 
 RAnalyser.propTypes = {
   children: PropTypes.func.isRequired

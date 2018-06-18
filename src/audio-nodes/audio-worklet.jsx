@@ -1,3 +1,4 @@
+/* global AudioWorkletNode */
 import React from 'react';
 import RConnectableNode from './../base/connectable-node.jsx';
 

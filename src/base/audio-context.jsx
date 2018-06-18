@@ -58,7 +58,7 @@ export default class RAudioContext extends React.Component {
         <div>
           <strong>RAudioContext</strong>
           <ul>
-          {children}
+            {children}
           </ul>
         </div>
       );
@@ -66,7 +66,7 @@ export default class RAudioContext extends React.Component {
 
     return this.props.children;
   }
-};
+}
 
 RAudioContext.childContextTypes = {
   audio: PropTypes.instanceOf(AudioContext),

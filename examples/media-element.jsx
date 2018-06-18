@@ -30,13 +30,13 @@ export default class MediaElementSourceExample extends React.Component {
           <RMediaElementSource element={this.audio} />
           <RCycle>
             <RPipeline>
-              <RDelay delayTime={.3} />
-              <RGain gain={.8} />
+              <RDelay delayTime={0.3} />
+              <RGain gain={0.8} />
             </RPipeline>
           </RCycle>
           <RGain gain={2} />
         </RPipeline>
       </RAudioContext>
-    )
+    );
   }
-};
+}

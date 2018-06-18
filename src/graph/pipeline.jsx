@@ -51,7 +51,7 @@ export default class RPipeline extends RComponent {
     } else if (!isConnectable(childrenArray[currentIndex + 1].component)) {
       let childIndex = currentIndex + 1;
 
-      while(childrenArray[++childIndex]) {
+      while (childrenArray[++childIndex]) {
         if (isConnectable(childrenArray[childIndex].component)) break;
       }
 
@@ -87,8 +87,8 @@ export default class RPipeline extends RComponent {
 
       // look for all preceding RComponents until we hit one which is connectable
       while (child) {
-        if (isConnectable(child.component)
-          || !RComponent.isPrototypeOf(child.component.type)) break;
+        if (isConnectable(child.component) ||
+          !RComponent.isPrototypeOf(child.component.type)) break;
 
         parents.push(child.identifier);
         child = children.pop();
@@ -135,7 +135,7 @@ export default class RPipeline extends RComponent {
     const pipelineProps = {
       destination: getDestination,
       parent: getParent,
-      identifier: identifiedChild.identifier,
+      identifier: identifiedChild.identifier
     };
 
     if (childIndex === childrenArray.length - 1) {
@@ -162,12 +162,12 @@ export default class RPipeline extends RComponent {
         <li>
           <strong>RPipeline</strong>
           <ul>
-          {children}
+            {children}
           </ul>
         </li>
-      )
+      );
     }
 
     return children;
   }
-};
+}

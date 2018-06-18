@@ -19,10 +19,10 @@ export default class RConnectableNode extends RAudioNode {
 
         try {
           parent.disconnect(this.node);
-        } catch(e) {
-          console.warn(e);
+        } catch (e) {
+          console.warn(e); // eslint-disable-line no-console
         }
-      })
+      });
     }
   }
 }

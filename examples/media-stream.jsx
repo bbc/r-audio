@@ -22,8 +22,7 @@ export default class MediaStreamSourceExample extends React.Component {
     this.state = { stream: null };
 
     navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-      .then(stream => this.setState({ stream }))
-      .catch(err => console.log('The following gUM error occured: ' + err));
+      .then(stream => this.setState({ stream }));
   }
 
   render() {
@@ -38,8 +37,8 @@ export default class MediaStreamSourceExample extends React.Component {
           <RMediaStreamSource stream={this.state.stream} />
           <RCycle>
             <RPipeline>
-              <RDelay delayTime={.3} />
-              <RGain gain={.2} />
+              <RDelay delayTime={0.3} />
+              <RGain gain={0.2} />
             </RPipeline>
           </RCycle>
           <RPanner positionY={0} positionX={0} panningModel="HRTF"/>
@@ -47,4 +46,4 @@ export default class MediaStreamSourceExample extends React.Component {
       </RAudioContext>
     ) : null;
   }
-};
+}

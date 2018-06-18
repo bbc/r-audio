@@ -7,7 +7,7 @@ export default class RGain extends RConnectableNode {
 
     this.params = {
       gain: this.props.gain
-    }
+    };
   }
 
   componentWillMount() {

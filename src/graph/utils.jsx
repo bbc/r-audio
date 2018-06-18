@@ -6,8 +6,8 @@ import RSplit from './split.jsx';
 import RSplitChannels from './split-channels.jsx';
 
 const isConnectable = component => {
-  return RConnectableNode.isPrototypeOf(component.type)
-      || [ RSplit, RCycle, RSplitChannels, RPipeline ].includes(component.type);
+  return RConnectableNode.isPrototypeOf(component.type) ||
+      [ RSplit, RCycle, RSplitChannels, RPipeline ].includes(component.type);
 };
 
 // this rather strange function is used when we want to get a numeric value
@@ -17,9 +17,9 @@ const propertyFromChildOrParent = (child, parent) => property => {
   return !isNaN(child.props[property])
     ? child.props[property]
     : parent.props[property];
-}
+};
 
 export {
   isConnectable,
-  propertyFromChildOrParent,
-}
+  propertyFromChildOrParent
+};

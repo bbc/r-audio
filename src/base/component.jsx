@@ -12,7 +12,7 @@ export default class RComponent extends React.Component {
   }
 
   render() { return null; }
-};
+}
 
 RComponent.contextTypes = {
   audio: PropTypes.instanceOf(AudioContext),

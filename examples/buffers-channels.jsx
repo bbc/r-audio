@@ -24,9 +24,9 @@ export default class BuffersAndChannels extends React.Component {
 
   componentDidMount() {
     fetch('/assets/audio/b.wav')
-    .then(res => res.arrayBuffer())
-    .then(ab => this.audioContext.decodeAudioData(ab))
-    .then(buffer => this.setState({ buffer }));
+      .then(res => res.arrayBuffer())
+      .then(ab => this.audioContext.decodeAudioData(ab))
+      .then(buffer => this.setState({ buffer }));
   }
 
   makeDistortionCurve(amount) {
@@ -36,12 +36,12 @@ export default class BuffersAndChannels extends React.Component {
       deg = Math.PI / 180,
       i = 0,
       x;
-    for ( ; i < n_samples; ++i ) {
+    for (; i < n_samples; ++i) {
       x = i * 2 / n_samples - 1;
-      curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+      curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
     }
     return curve;
-  };
+  }
 
   render() {
     return (
@@ -59,7 +59,7 @@ export default class BuffersAndChannels extends React.Component {
               <RConvolver buffer={this.state.buffer} />
               <RDynamicsCompressor threshold={-50} knee={40}/>
               <RConstantSource offset={0} connectToParam="gain" start={0}/>
-              <RGain gain={.5} />
+              <RGain gain={0.5} />
             </RPipeline>
             <RPipeline>
               <ROscillator frequency={1} type="sine" detune={0} connectToParam="gain" start={0}/>
@@ -68,6 +68,6 @@ export default class BuffersAndChannels extends React.Component {
           </RSplitChannels>
         </RPipeline>
       </RAudioContext>
-    )
+    );
   }
-};
+}

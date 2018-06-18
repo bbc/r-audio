@@ -13,12 +13,12 @@ render(
   (
     <main>
       <header>
-      <label htmlFor="example-select">Select an example: </label>
-      <select id="example-select" onChange={onExampleChange} value={example}>
-      {
-        Object.keys(examples).map((ex, ei) => <option key={ei} value={ex}>{ex}</option>)
-      }
-      </select>
+        <label htmlFor="example-select">Select an example: </label>
+        <select id="example-select" onChange={onExampleChange} value={example}>
+          {
+            Object.keys(examples).map((ex, ei) => <option key={ei} value={ex}>{ex}</option>)
+          }
+        </select>
       </header>
       <hr/>
       { examples[example] || null }

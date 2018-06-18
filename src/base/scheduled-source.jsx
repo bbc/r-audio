@@ -25,10 +25,10 @@ export default class RScheduledSource extends RAudioNode {
 
   schedule() {
     const shouldScheduleStart =
-      typeof this.props.start === 'number'
-      && this.readyToPlay
-      && !this.playbackScheduled
-      && (typeof this.props.stop !== 'number' || this.props.start < this.props.stop);
+      typeof this.props.start === 'number' &&
+      this.readyToPlay &&
+      !this.playbackScheduled &&
+      (typeof this.props.stop !== 'number' || this.props.start < this.props.stop);
 
     const shouldScheduleStop =
       typeof this.props.stop === 'number';
@@ -58,9 +58,9 @@ export default class RScheduledSource extends RAudioNode {
   componentDidUpdate(prevProps, prevState) {
     super.componentDidUpdate(prevProps, prevState);
 
-    if (prevProps.start !== this.props.start
-        || prevProps.stop !== this.props.stop
-        || this.shouldStartWithPropsChange(prevProps, this.props)) {
+    if (prevProps.start !== this.props.start ||
+        prevProps.stop !== this.props.stop ||
+        this.shouldStartWithPropsChange(prevProps, this.props)) {
       this.schedule();
     }
   }

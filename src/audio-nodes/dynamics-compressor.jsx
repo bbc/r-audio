@@ -9,8 +9,8 @@ export default class RDynamicsCompressor extends RConnectableNode {
       threshold: props.threshold || -24,
       knee: props.knee || 30,
       ratio: props.ratio || 12,
-      attack: props.attack || .003,
-      release: props.release || .25
+      attack: props.attack || 0.003,
+      release: props.release || 0.25
     };
   }
 

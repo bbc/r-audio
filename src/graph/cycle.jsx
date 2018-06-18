@@ -29,11 +29,11 @@ export default class RCycle extends RComponent {
   }
 
   render() {
-    while(this.inputs.length) this.inputs.pop();
+    while (this.inputs.length) this.inputs.pop();
 
     const children = React.Children
       .toArray(this.props.children)
-      .map(c => ({ component: c,  identifier: Symbol(c.type.name + Date.now()) }))
+      .map(c => ({ component: c, identifier: Symbol(c.type.name + Date.now()) }))
       .map((childTuple, childIndex, childrenArray) => {
         const type = childTuple.component.type;
         if (RComponent.isPrototypeOf(childTuple.component.type) && isConnectable(childTuple.component)) {
@@ -47,7 +47,7 @@ export default class RCycle extends RComponent {
             const ownNode = this.context.nodes.get(childTuple.identifier);
             if (!(destination instanceof Array)) destination = [ destination ];
 
-            return destination.concat([ ownNode ])
+            return destination.concat([ ownNode ]);
           },
           identifier: childTuple.identifier
         };
@@ -66,10 +66,10 @@ export default class RCycle extends RComponent {
         <li>
           <strong>RCycle</strong>
           <ul>
-          {children}
+            {children}
           </ul>
         </li>
-      )
+      );
     }
 
     return children;

@@ -16,20 +16,20 @@ export default class GainMatrix extends React.Component {
     super();
     this.state = {
       buffer: null,
-      gains: [[1,1],
-              [1,1]]
+      gains: [[1, 1],
+        [1, 1]]
     };
   }
 
   componentDidMount() {
     fetch('/assets/audio/clarinet.mp3')
-    .then(res => res.arrayBuffer())
-    .then(ab => this.audioContext.decodeAudioData(ab))
-    .then(buffer => this.setState({ buffer }));
+      .then(res => res.arrayBuffer())
+      .then(ab => this.audioContext.decodeAudioData(ab))
+      .then(buffer => this.setState({ buffer }));
   }
 
   onGainInput(e) {
-    const [x,y] = e.target.name.split('').map(v => parseInt(v));
+    const [x, y] = e.target.name.split('').map(v => parseInt(v));
 
     const gains = this.state.gains.slice().map(arr => arr.slice());
     gains[x][y] = e.target.value;
@@ -79,6 +79,6 @@ export default class GainMatrix extends React.Component {
           </RSplitChannels>
         </RPipeline>
       </RAudioContext>
-    )
+    );
   }
-};
+}

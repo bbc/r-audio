@@ -20,7 +20,7 @@ export default class RMediaStreamSource extends RAudioNode {
   componentWillMount() {
     super.componentWillMount();
 
-    if (!this.node || !(this.node instanceof BufferSourceNode)) {
+    if (!this.node || !(this.node instanceof MediaStreamAudioSourceNode)) {
       this.createNode();
     }
 

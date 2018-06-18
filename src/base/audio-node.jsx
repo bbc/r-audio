@@ -146,7 +146,7 @@ export default class RAudioNode extends RComponent {
       // `exponentialRamp` doesn't seem to work on Firefox, so fall back to linear
       try {
         param[fn](value, transitionTime);
-      } catch(e) {
+      } catch (e) {
         param['linearRampToValueAtTime'](value, transitionTime);
       }
     } else {

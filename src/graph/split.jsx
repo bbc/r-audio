@@ -32,11 +32,11 @@ export default class RSplit extends RComponent {
   }
 
   render() {
-    while(this.inputs.length) this.inputs.pop();
+    while (this.inputs.length) this.inputs.pop();
 
     const children = React.Children
       .toArray(this.props.children)
-      .map(c => ({ component: c,  identifier: Symbol(c.type.name + Date.now()) }))
+      .map(c => ({ component: c, identifier: Symbol(c.type.name + Date.now()) }))
       .map((childTuple, childIndex, childrenArray) => {
         if (!RComponent.isPrototypeOf(childTuple.component.type)) return childTuple.component;
 
@@ -57,7 +57,7 @@ export default class RSplit extends RComponent {
           destination: this.props.destination,
           identifier: childTuple.identifier,
           connectFromChannel,
-          connectToChannel,
+          connectToChannel
         };
 
         return React.cloneElement(childTuple.component, splitProps);
@@ -74,10 +74,10 @@ export default class RSplit extends RComponent {
         <li>
           <strong>RSplit</strong>
           <ul>
-          {children}
+            {children}
           </ul>
         </li>
-      )
+      );
     }
 
     return children;

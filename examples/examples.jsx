@@ -17,7 +17,7 @@ const examples = {
   'media-element': <MediaElementSourceExample/>,
   'media-stream': <MediaStreamSourceExample/>,
   'mutation': <Mutation/>,
-  'gain-matrix': <GainMatrix/>,
-}
+  'gain-matrix': <GainMatrix/>
+};
 
 export default examples;
