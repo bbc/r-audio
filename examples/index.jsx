@@ -15,6 +15,7 @@ render(
       <header>
         <label htmlFor="example-select">Select an example: </label>
         <select id="example-select" onChange={onExampleChange} value={example}>
+          <option value="" disabled>Choose an example</option>
           {
             Object.keys(examples).map((ex, ei) => <option key={ei} value={ex}>{ex}</option>)
           }
