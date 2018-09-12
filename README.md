@@ -1,8 +1,6 @@
 # r-audio
 A library of React components for building [Web Audio](https://www.w3.org/TR/webaudio/) graphs.
 
-*Note: we're currently working on making the library available on NPM.*
-
 ## Objectives
 👉 make Web Audio graph code more readable and representative of the graph shape
 
@@ -16,7 +14,13 @@ A library of React components for building [Web Audio](https://www.w3.org/TR/web
 
 👉 allow interspersed HTML components in audio components
 
-## Example
+## Installation
+
+```bash
+npm install r-audio
+```
+
+## Usage example
 
 Stereo waveshaper + amplitude modulation on a WAV loop
 ```jsx
