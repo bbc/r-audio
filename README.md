@@ -1,5 +1,5 @@
 # r-audio
-A library of React components for building Web Audio graphs.
+A library of React components for building [Web Audio](https://www.w3.org/TR/webaudio/) graphs.
 
 ## Objectives
 👉 make Web Audio graph code more readable and representative of the graph shape
