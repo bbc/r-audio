@@ -49,4 +49,4 @@ export {
   RSplitChannels,
   RStereoPanner,
   RWaveShaper
-}
+};
