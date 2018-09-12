@@ -33,6 +33,7 @@ export default class RCycle extends RComponent {
 
     const children = React.Children
       .toArray(this.props.children)
+      .filter(c => c !== null && c !== [])
       .map(c => ({ component: c, identifier: Symbol(c.type.name + Date.now()) }))
       .map((childTuple, childIndex, childrenArray) => {
         const type = childTuple.component.type;

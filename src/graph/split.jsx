@@ -36,6 +36,7 @@ export default class RSplit extends RComponent {
 
     const children = React.Children
       .toArray(this.props.children)
+      .filter(c => c !== null && c !== [])
       .map(c => ({ component: c, identifier: Symbol(c.type.name + Date.now()) }))
       .map((childTuple, childIndex, childrenArray) => {
         if (!RComponent.isPrototypeOf(childTuple.component.type)) return childTuple.component;

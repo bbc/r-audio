@@ -64,7 +64,7 @@ export default class RAudioContext extends React.Component {
       );
     }
 
-    return this.props.children;
+    return children || [];
   }
 }
 

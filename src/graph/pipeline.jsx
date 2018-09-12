@@ -153,6 +153,7 @@ export default class RPipeline extends RComponent {
 
     const children = React.Children
       .toArray(this.props.children)
+      .filter(c => c !== null && c !== [])
       // double mapping because the second functor needs to peek ahead on the children array
       .map(this.createIdentifiedChild, this)
       .map(this.createEmbeddableChild, this);
