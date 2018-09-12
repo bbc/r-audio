@@ -1,19 +1,26 @@
 const webpack = require('webpack');
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-module.exports = {
+const Config = {
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'r-audio.min.js'
+    filename: 'r-audio.min.js',
   },
   entry: './examples/index.jsx',
-  devtool: 'source-map',
+  mode: process.env['NODE_ENV'] || 'production',
+  devtool: process.env['NODE_ENV'] === 'development' ? 'source-map' : false,
+  resolve: {
+    modules: [
+      'node_modules'
+    ]
+  },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$|\.jsx$/,
         exclude: /node_modules/,
-        loaders: ['babel-loader?presets[]=react,env', 'eslint-loader?fix=true&emitWarning=true']
+        use: ['babel-loader?presets[]=react,env', 'eslint-loader?fix=true&emitWarning=true']
       }
     ]
   },
@@ -23,3 +30,13 @@ module.exports = {
     port: 8080
   }
 };
+
+if (!(process.env['NODE_ENV'] === 'development')) {
+  Config.output.library = 'r-audio';
+  Config.output.libraryTarget = 'umd';
+  Config.entry = './index.jsx';
+  Config.optimization = { minimizer: [ new UglifyJsPlugin() ] };
+  Config.externals = ['react', 'react-dom', 'prop-types'];
+}
+
+module.exports = Config;
