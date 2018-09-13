@@ -1,6 +1,6 @@
 {
   "name": "r-audio",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A library of React components for building Web Audio graphs. ",
   "module": "dist/r-audio.min.js",
   "main": "dist/r-audio.min.js",
