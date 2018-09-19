@@ -29,7 +29,7 @@ class DelayLine extends RExtensible {
 export default class CustomNodeExample extends React.Component {
   constructor(props) {
     super(props);
-    this.audio = new Audio('/assets/audio/a.wav');
+    this.audio = new Audio('/assets/audio/clarinet.mp3');
     this.audio.autoplay = true;
     this.audio.loop = true;
   }
@@ -48,7 +48,7 @@ export default class CustomNodeExample extends React.Component {
         </article>
         <RPipeline>
           <RMediaElementSource element={this.audio} />
-          <DelayLine gain={0.8} delayTime={0.3} />
+          <DelayLine gain={0.7} delayTime={0.3} />
           <RGain gain={2} />
         </RPipeline>
       </RAudioContext>
