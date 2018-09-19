@@ -8,6 +8,7 @@ import MediaElementSourceExample from './media-element.js';
 import MediaStreamSourceExample from './media-stream.js';
 import Mutation from './mutation.js';
 import GainMatrix from './gain-matrix.js';
+import CustomNodeExample from './custom-nodes.js';
 
 const examples = {
   'audio-worklet': <AudioWorkletExample/>,
@@ -17,7 +18,8 @@ const examples = {
   'media-element': <MediaElementSourceExample/>,
   'media-stream': <MediaStreamSourceExample/>,
   'mutation': <Mutation/>,
-  'gain-matrix': <GainMatrix/>
+  'gain-matrix': <GainMatrix/>,
+  'custom-node': <CustomNodeExample />,
 };
 
 export default examples;

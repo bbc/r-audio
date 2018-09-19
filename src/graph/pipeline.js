@@ -151,8 +151,8 @@ export default class RPipeline extends RComponent {
   render() {
     this.foundFirstConnectableType = false;
 
-    const children = React.Children
-      .toArray(this.props.children)
+    const originalChildren = React.Children.toArray(this.props.children);
+    const children = (this.customChildren || originalChildren)
       .filter(c => c !== null && c !== [])
       // double mapping because the second functor needs to peek ahead on the children array
       .map(this.createIdentifiedChild, this)
@@ -161,7 +161,7 @@ export default class RPipeline extends RComponent {
     if (this.context.debug) {
       return (
         <li>
-          <strong>RPipeline</strong>
+          <strong>{this.constructor.name}</strong>
           <ul>
             {children}
           </ul>

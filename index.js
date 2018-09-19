@@ -2,6 +2,7 @@ import RAudioContext from './src/base/audio-context.js';
 import RPipeline from './src/graph/pipeline.js';
 import RSplit from './src/graph/split.js';
 import RCycle from './src/graph/cycle.js';
+import RExtensible from './src/graph/extensible.js';
 import RSplitChannels from './src/graph/split-channels.js';
 
 import {
@@ -48,5 +49,6 @@ export {
   RSplit,
   RSplitChannels,
   RStereoPanner,
-  RWaveShaper
+  RWaveShaper,
+  RExtensible
 };
