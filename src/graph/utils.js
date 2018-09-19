@@ -1,13 +1,16 @@
 import RConnectableNode from './../base/connectable-node.js';
 
-import RCycle from './cycle.js';
-import RPipeline from './pipeline.js';
-import RSplit from './split.js';
-import RSplitChannels from './split-channels.js';
+const connectableComponents = [
+  'RSplit',
+  'RCycle',
+  'RSplitChannels',
+  'RPipeline'
+];
 
 const isConnectable = component => {
   return RConnectableNode.isPrototypeOf(component.type) ||
-      [ RSplit, RCycle, RSplitChannels, RPipeline ].includes(component.type);
+      connectableComponents.includes(component.type.name) ||
+      Object.getPrototypeOf(component.type).name === 'RExtensible';
 };
 
 // this rather strange function is used when we want to get a numeric value
