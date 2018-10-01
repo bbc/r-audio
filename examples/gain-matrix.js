@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import RAudioContext from '../src/base/audio-context.js';
 import RPipeline from '../src/graph/pipeline.js';
 import RSplit from '../src/graph/split.js';
+import RExtensible from '../src/graph/extensible.js';
 import RSplitChannels from '../src/graph/split-channels.js';
 
 import {
@@ -11,21 +12,15 @@ import {
   RBufferSource
 } from '../src/audio-nodes/index.js';
 
-export default class GainMatrix extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      buffer: null,
-      gains: [[1, 1],
-        [1, 1]]
-    };
-  }
+class GainMatrix extends RExtensible {
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    fetch('/assets/audio/clarinet.mp3')
-      .then(res => res.arrayBuffer())
-      .then(ab => this.audioContext.decodeAudioData(ab))
-      .then(buffer => this.setState({ buffer }));
+    const gains = (new Array(props.channelCount || 2))
+      .fill((new Array(props.channelCount || 2)).fill(1));
+
+    this.state = { gains };
+    this.makeRow = this.makeRow.bind(this);
   }
 
   onGainInput(e) {
@@ -37,9 +32,50 @@ export default class GainMatrix extends React.Component {
     this.setState({ gains });
   }
 
+  makeRow(row, rowIndex) {
+    return (
+      <RSplit key={rowIndex}>
+        {
+          row.map((cellGain, columnIndex) => (
+            <RPipeline key={columnIndex}>
+              <RGain name={`gain${rowIndex}${columnIndex}`} gain={cellGain}
+                connectToChannel={columnIndex}/>
+              <input type="range" min="0" max="1" step="any"
+                onChange={this.onGainInput.bind(this)} name={`${rowIndex}${columnIndex}`} />
+            </RPipeline>
+          ))
+        }
+      </RSplit>
+    );
+  }
+
+  renderGraph() {
+    return (
+      <RSplitChannels channelCount={this.props.channelCount}>
+        { this.state.gains.map(this.makeRow) }
+      </RSplitChannels>
+    );
+  }
+}
+
+export default class GainMatrixExample extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      buffer: null
+    };
+  }
+
+  componentDidMount() {
+    fetch('/assets/audio/clarinet.mp3')
+      .then(res => res.arrayBuffer())
+      .then(ab => this.audioContext.decodeAudioData(ab))
+      .then(buffer => this.setState({ buffer }));
+  }
+
   render() {
     return (
-      <RAudioContext debug={true} onInit={ctx => this.audioContext = ctx}>
+      <RAudioContext debug={false} onInit={ctx => this.audioContext = ctx}>
         <article>
           <h1>Gain Matrix</h1>
           <p>
@@ -58,26 +94,7 @@ export default class GainMatrix extends React.Component {
         </article>
         <RPipeline>
           <RBufferSource buffer={this.state.buffer} loop start={0}/>
-          <RSplitChannels channelCount={2}>
-            <RSplit>
-              <RGain name="gain00" gain={this.state.gains[0][0]} connectToChannel={0}/>
-              <input type="range" min="0" max="1" step="any"
-                onChange={this.onGainInput.bind(this)} name="00" />
-
-              <RGain name="gain01" gain={this.state.gains[0][1]} connectToChannel={1}/>
-              <input type="range" min="0" max="1" step="any"
-                onChange={this.onGainInput.bind(this)} name="01" />
-            </RSplit>
-            <RSplit>
-              <RGain name="gain10" gain={this.state.gains[1][0]} connectToChannel={0}/>
-              <input type="range" min="0" max="1" step="any"
-                onChange={this.onGainInput.bind(this)} name="10" />
-
-              <RGain name="gain11" gain={this.state.gains[1][1]} connectToChannel={1}/>
-              <input type="range" min="0" max="1" step="any"
-                onChange={this.onGainInput.bind(this)} name="11" />
-            </RSplit>
-          </RSplitChannels>
+          <GainMatrix channelCount={2}/>
         </RPipeline>
       </RAudioContext>
     );

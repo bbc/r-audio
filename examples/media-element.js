@@ -14,7 +14,7 @@ import {
 export default class MediaElementSourceExample extends React.Component {
   constructor(props) {
     super(props);
-    this.audio = new Audio('/assets/audio/a.wav');
+    this.audio = new Audio('/assets/audio/clarinet.mp3');
     this.audio.autoplay = true;
     this.audio.loop = true;
   }
