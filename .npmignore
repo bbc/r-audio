@@ -1,1 +1,4 @@
-examples/audio/
+examples/
+evaluation/
+.eslintrc.json
+.DS_Store
