@@ -39,8 +39,16 @@ class GainMatrix extends RExtensible {
             <RPipeline key={columnIndex}>
               <RGain name={`gain${rowIndex}${columnIndex}`} gain={cellGain}
                 connectToChannel={columnIndex}/>
-              <input type="range" min="0" max="1" step="any"
-                onChange={this.onGainInput.bind(this)} name={`${rowIndex}${columnIndex}`} />
+              <form>
+                <label htmlFor={`label-${rowIndex}${columnIndex}`}>
+                  {`Row: ${rowIndex} - Column: ${columnIndex}`}
+                </label>
+                <input type="range" min="0" max="1" step="any"
+                  id={`label-${rowIndex}${columnIndex}`}
+                  name={`${rowIndex}${columnIndex}`}
+                  onChange={this.onGainInput.bind(this)} />
+                <hr/>
+              </form>
             </RPipeline>
           ))
         }
