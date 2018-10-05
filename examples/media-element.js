@@ -1,15 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import RAudioContext from '../src/base/audio-context.js';
-import RPipeline from '../src/graph/pipeline.js';
-import RCycle from '../src/graph/cycle.js';
-
 import {
-  RGain,
+  RAudioContext,
+  RCycle,
   RDelay,
-  RMediaElementSource
-} from '../src/audio-nodes/index.js';
+  RGain,
+  RMediaElementSource,
+  RPipeline
+} from '../index.js';
 
 export default class MediaElementSourceExample extends React.Component {
   constructor(props) {

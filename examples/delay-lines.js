@@ -4,18 +4,17 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import RAudioContext from '../src/base/audio-context.js';
-import RPipeline from '../src/graph/pipeline.js';
-import RSplit from '../src/graph/split.js';
-import RCycle from '../src/graph/cycle.js';
-
 import {
-  ROscillator,
-  RGain,
+  RAudioContext,
   RBiquadFilter,
-  RStereoPanner,
-  RDelay
-} from '../src/audio-nodes/index.js';
+  RCycle,
+  RDelay,
+  RGain,
+  ROscillator,
+  RPipeline,
+  RSplit,
+  RStereoPanner
+} from '../index.js';
 
 export default class DelayLineExample extends React.Component {
   constructor(props) {

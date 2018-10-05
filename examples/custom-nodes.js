@@ -1,17 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import RAudioContext from '../src/base/audio-context.js';
-import RPipeline from '../src/graph/pipeline.js';
-import RSplit from '../src/graph/split.js';
-import RCycle from '../src/graph/cycle.js';
-import RExtensible from '../src/graph/extensible.js';
-
 import {
-  RGain,
+  RAudioContext,
+  RCycle,
   RDelay,
-  RMediaElementSource
-} from '../src/audio-nodes/index.js';
+  RExtensible,
+  RGain,
+  RMediaElementSource,
+  RPipeline,
+  RSplit
+} from '../index.js';
 
 class DelayLine extends RExtensible {
   renderGraph() {

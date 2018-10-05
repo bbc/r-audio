@@ -1,16 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import RAudioContext from '../src/base/audio-context.js';
-import RPipeline from '../src/graph/pipeline.js';
-import RCycle from '../src/graph/cycle.js';
-
 import {
-  RGain,
+  RAudioContext,
+  RCycle,
   RDelay,
+  RGain,
+  RMediaStreamSource,
   RPanner,
-  RMediaStreamSource
-} from '../src/audio-nodes/index.js';
+  RPipeline
+} from '../index.js';
 
 export default class MediaStreamSourceExample extends React.Component {
   constructor(props) {

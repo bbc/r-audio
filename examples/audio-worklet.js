@@ -1,17 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import RAudioContext from '../src/base/audio-context.js';
-import RPipeline from '../src/graph/pipeline.js';
-import RSplitChannels from '../src/graph/split-channels.js';
-
 import {
-  RGain,
-  RDelay,
   RAnalyser,
+  RAudioContext,
+  RAudioWorklet,
+  RDelay,
+  RGain,
   RMediaStreamSource,
-  RAudioWorklet
-} from '../src/audio-nodes/index.js';
+  RPipeline,
+  RSplitChannels
+} from '../index.js';
 
 export default class AudioWorkletExample extends React.Component {
   constructor() {

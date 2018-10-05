@@ -1,19 +1,18 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import RAudioContext from '../src/base/audio-context.js';
-import RPipeline from '../src/graph/pipeline.js';
-import RSplitChannels from '../src/graph/split-channels.js';
-
 import {
-  ROscillator,
-  RGain,
+  RAudioContext,
   RBufferSource,
   RConstantSource,
   RConvolver,
-  RWaveShaper,
-  RDynamicsCompressor
-} from '../src/audio-nodes/index.js';
+  RDynamicsCompressor,
+  RGain,
+  ROscillator,
+  RPipeline,
+  RSplitChannels,
+  RWaveShaper
+} from '../index.js';
 
 export default class BuffersAndChannels extends React.Component {
   constructor() {

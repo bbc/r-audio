@@ -1,16 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import RAudioContext from '../src/base/audio-context.js';
-import RPipeline from '../src/graph/pipeline.js';
-import RSplit from '../src/graph/split.js';
-
 import {
-  ROscillator,
-  RGain,
+  RAudioContext,
   RBiquadFilter,
+  RGain,
+  ROscillator,
+  RPipeline,
+  RSplit,
   RStereoPanner
-} from '../src/audio-nodes/index.js';
+} from '../index.js';
 
 export default class Mutation extends React.Component {
   constructor() {
