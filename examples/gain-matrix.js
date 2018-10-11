@@ -43,10 +43,10 @@ class GainMatrix extends RExtensible {
                 <label htmlFor={`label-${rowIndex}${columnIndex}`}>
                   {`Row: ${rowIndex} - Column: ${columnIndex}`}
                 </label>
-                <input type="range" min="0" max="1" step="any"
+                <input type="range" min="0" max="1" step="any" defaultValue="1"
                   id={`label-${rowIndex}${columnIndex}`}
                   name={`${rowIndex}${columnIndex}`}
-                  onChange={this.onGainInput.bind(this)} />
+                  onChange={this.onGainInput.bind(this)}/>
                 <hr/>
               </form>
             </RPipeline>
@@ -74,10 +74,14 @@ export default class GainMatrixExample extends React.Component {
   }
 
   componentDidMount() {
+    // In Safari decodeAudioData doesn't return a promise
+    // so we need to run this as both a callback and a promise handler
+    const loadBuffer = buffer => buffer && this.setState({ buffer });
+
     fetch('/assets/audio/clarinet.mp3')
       .then(res => res.arrayBuffer())
-      .then(ab => this.audioContext.decodeAudioData(ab))
-      .then(buffer => this.setState({ buffer }));
+      .then(ab => this.audioContext.decodeAudioData(ab, loadBuffer, null))
+      .then(loadBuffer);
   }
 
   render() {
