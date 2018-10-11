@@ -20,7 +20,8 @@ export default class RAudioContext extends React.Component {
     // repository of all nodes in the graph
     // keyed by Symbols
     this.nodes = new Map();
-    this._context = new AudioContext();
+
+    this._context = new AudioContext(props.options);
 
     if (this.props.onInit) this.props.onInit(this._context);
 
