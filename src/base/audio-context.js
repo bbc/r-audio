@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RComponent from './component.js';
 
+window.AudioContext = window.AudioContext || window.webkitAudioContext || null;
+if (!window.AudioContext) {
+  throw new Error(
+    'Could not find AudioContext. This may be because your browser does not support Web Audio.');
+}
+
 /**
  * Contains and manages the Web Audio graph.
  * All immediate children connect directly to its Destination.

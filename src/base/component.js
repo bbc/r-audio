@@ -15,7 +15,7 @@ export default class RComponent extends React.Component {
 }
 
 RComponent.contextTypes = {
-  audio: PropTypes.instanceOf(AudioContext),
+  audio: PropTypes.instanceOf(window.AudioContext || window.webkitAudioContext),
   nodes: PropTypes.instanceOf(Map),
   debug: PropTypes.bool
 };
